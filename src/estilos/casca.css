@@ -1,0 +1,605 @@
+/* ================================================================
+   Linkhub CC 1A · Casca
+   A moldura da página: barra lateral, telas, rodapé, janelas.
+
+   São dois arranjos da mesma marcação, sem duplicar nada no HTML:
+
+   computador  a lateral é uma coluna fixa à esquerda, com marca,
+               navegação, ações e tema empilhados.
+   celular     a lateral vira uma faixa fina no topo (marca e ações)
+               e a navegação se destaca dela para o rodapé, ao
+               alcance do polegar.
+================================================================ */
+
+/* ================================================================
+   1. CONTEÚDO
+================================================================ */
+
+.conteudo {
+  inline-size: 100%;
+  max-inline-size: 940px;
+  margin-inline: auto;
+  /* Folga em cima para a faixa da marca e embaixo para o menu, que
+     no celular flutuam sobre o conteúdo. */
+  padding-block: calc(var(--topo-alto) + 1.2rem) calc(var(--trilha-alta) + 2rem);
+  padding-inline: 1.15rem;
+}
+
+/* Sentinela invisível que diz se a página está no topo. */
+#sentinela-topo {
+  position: absolute;
+  inset-block-start: 0;
+  block-size: 1px;
+  inline-size: 1px;
+}
+
+
+/* ================================================================
+   2. LATERAL
+================================================================ */
+
+.lateral {
+  position: fixed;
+  z-index: 40;
+  inset-block-start: 0;
+  inset-inline: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.5rem 1.15rem;
+  border-block-end: 1px solid var(--risco);
+}
+
+/* O fosco vai numa pseudo-elemento, não na .lateral.
+   `backdrop-filter` torna o elemento bloco de contenção dos
+   descendentes com position:fixed — e a .trilha, que é filha daqui,
+   passaria a se ancorar nesta faixa de 52px em vez de no rodapé da
+   tela. Numa pseudo-elemento o efeito é o mesmo e a .trilha
+   continua livre para grudar embaixo. */
+.lateral::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: color-mix(in srgb, var(--papel) 86%, transparent);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+
+/* ── Marca ───────────────────────────────────────────────── */
+
+.marca {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-inline-end: auto;
+  text-decoration: none;
+  color: inherit;
+}
+
+.marca-logo {
+  flex-shrink: 0;
+  inline-size: 34px;
+  block-size: 34px;
+  object-fit: contain;
+}
+
+.marca-texto { min-inline-size: 0; }
+
+.marca-nome {
+  font-family: var(--fonte-titulo);
+  font-size: 0.95rem;
+  font-weight: 600;
+  line-height: 1.15;
+  white-space: nowrap;
+}
+
+.marca-periodo {
+  color: var(--tinta-tenue);
+  font-size: 0.68rem;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+
+/* ── Ações ───────────────────────────────────────────────── */
+
+.acoes {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.acao {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.42rem;
+  border-radius: var(--curva-p);
+  color: var(--tinta-fraca);
+  font-size: 0.78rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: background 0.16s, color 0.16s;
+}
+
+.acao:hover { background: var(--papel-fundo); color: var(--tinta); }
+
+.acao svg {
+  inline-size: 17px;
+  block-size: 17px;
+  flex-shrink: 0;
+}
+
+/* Na faixa do topo cabe só o símbolo. */
+.acao-texto {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  margin: -1px;
+  clip-path: inset(50%);
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+/* ── Escolha de tema ─────────────────────────────────────── */
+
+.tema {
+  display: flex;
+  gap: 1px;
+  padding: 2px;
+  border-radius: 999px;
+  background: var(--papel-fundo);
+}
+
+.tema-opcao {
+  display: grid;
+  place-items: center;
+  inline-size: 27px;
+  block-size: 27px;
+  border-radius: 999px;
+  color: var(--tinta-tenue);
+  transition: background 0.16s, color 0.16s;
+}
+
+.tema-opcao svg { inline-size: 15px; block-size: 15px; }
+
+.tema-opcao:hover { color: var(--tinta); }
+
+.tema-opcao[aria-checked="true"] {
+  background: var(--papel-alto);
+  color: var(--tinta);
+  box-shadow: var(--sombra-baixa);
+}
+
+
+/* ================================================================
+   3. TRILHA (navegação entre telas)
+================================================================ */
+
+.trilha {
+  position: fixed;
+  z-index: 45;
+  inset-inline: 0;
+  inset-block-end: 0;
+  display: flex;
+  padding-block-end: env(safe-area-inset-bottom);
+  background: color-mix(in srgb, var(--papel) 92%, transparent);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-block-start: 1px solid var(--risco);
+}
+
+.trilha-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.15rem;
+  block-size: var(--trilha-alta);
+  color: var(--tinta-tenue);
+  font-size: 0.66rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 0.16s;
+}
+
+.trilha-item svg {
+  inline-size: 21px;
+  block-size: 21px;
+  stroke-width: 1.6;
+}
+
+.trilha-item:hover { color: var(--tinta-fraca); }
+
+.trilha-item--ativo { color: var(--tinta); }
+
+/* Traço sob o item ativo no menu inferior */
+.trilha-item--ativo::before {
+  content: "";
+  position: absolute;
+  inset-block-start: 0;
+  inline-size: 26px;
+  block-size: 2px;
+  border-radius: 0 0 2px 2px;
+  background: var(--realce);
+}
+
+.trilha-item { position: relative; }
+
+
+/* ================================================================
+   4. TELAS
+================================================================ */
+
+.tela--ativa { animation: entra 0.28s ease both; }
+
+@keyframes entra {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* Cabeçalho de seção com título de um lado e controles do outro */
+.secao-cabeca {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6rem;
+  margin-block-end: 0.75rem;
+}
+
+.secao-cabeca .secao-titulo { margin-block-end: 0; }
+
+/* Par de botões que troca o modo de leitura */
+.gangorra {
+  display: inline-flex;
+  gap: 2px;
+  padding: 2px;
+  border-radius: 999px;
+  background: var(--papel-fundo);
+}
+
+.gangorra-opcao {
+  padding: 0.3rem 0.75rem;
+  border-radius: 999px;
+  color: var(--tinta-tenue);
+  font-size: 0.72rem;
+  font-weight: 600;
+  transition: background 0.16s, color 0.16s;
+}
+
+.gangorra-opcao:hover { color: var(--tinta); }
+
+.gangorra-opcao[aria-pressed="true"] {
+  background: var(--papel-alto);
+  color: var(--tinta);
+  box-shadow: var(--sombra-baixa);
+}
+
+
+/* ================================================================
+   5. RODAPÉ
+================================================================ */
+
+.rodape {
+  margin-block-start: 3rem;
+  padding-block-start: 1.5rem;
+  border-block-start: 1px solid var(--risco);
+  color: var(--tinta-tenue);
+  font-size: 0.76rem;
+}
+
+.rodape-links {
+  display: flex;
+  gap: 0.9rem;
+  margin-block-start: 0.5rem;
+}
+
+.rodape-links a {
+  color: var(--tinta-fraca);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.rodape-links a:hover { color: var(--tinta); text-decoration: underline; }
+
+.rodape-nota {
+  margin-block-start: 1rem;
+  max-inline-size: 56ch;
+  font-size: 0.72rem;
+  line-height: 1.5;
+}
+
+
+/* ================================================================
+   6. AO TOPO
+================================================================ */
+
+#ao-topo {
+  position: fixed;
+  z-index: 35;
+  inset-inline-end: 1rem;
+  inset-block-end: calc(var(--trilha-alta) + 1rem + env(safe-area-inset-bottom));
+  display: grid;
+  place-items: center;
+  inline-size: 40px;
+  block-size: 40px;
+  border: 1px solid var(--risco);
+  border-radius: 999px;
+  background: var(--papel-alto);
+  color: var(--tinta-fraca);
+  box-shadow: var(--sombra-baixa);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(8px);
+  transition: opacity 0.25s, visibility 0.25s, transform 0.25s, color 0.16s;
+}
+
+#ao-topo svg { inline-size: 17px; block-size: 17px; }
+
+#ao-topo:hover { color: var(--tinta); }
+
+.ao-topo--visivel {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+}
+
+
+/* ================================================================
+   7. NOTAS PASSAGEIRAS
+================================================================ */
+
+.notas {
+  position: fixed;
+  z-index: 80;
+  inset-inline: 1rem;
+  inset-block-end: calc(var(--trilha-alta) + 1rem + env(safe-area-inset-bottom));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+  pointer-events: none;
+}
+
+.nota {
+  max-inline-size: 30ch;
+  padding: 0.55rem 0.95rem;
+  border-radius: 999px;
+  background: var(--realce);
+  color: var(--realce-texto);
+  font-size: 0.78rem;
+  font-weight: 500;
+  text-align: center;
+  box-shadow: var(--sombra-alta);
+  /* Entrada, espera e saída numa animação só: a nota se remove no
+     animationend, sem cronômetro em JavaScript. */
+  animation: nota-vida 3.4s cubic-bezier(0.2, 0.8, 0.3, 1) both;
+}
+
+.nota--atencao {
+  background: var(--c-feriado);
+  color: #fff;
+}
+
+@keyframes nota-vida {
+  0%        { opacity: 0; transform: translateY(10px) scale(0.96); }
+  8%, 88%   { opacity: 1; transform: none; }
+  100%      { opacity: 0; transform: translateY(-6px) scale(0.98); }
+}
+
+/* Mesma duração, sem deslocamento — para quem pediu menos movimento */
+@keyframes nota-vida-parada {
+  0%      { opacity: 0; }
+  8%, 88% { opacity: 1; }
+  100%    { opacity: 0; }
+}
+
+
+/* ================================================================
+   8. JANELAS SOBREPOSTAS
+================================================================ */
+
+.janela {
+  position: fixed;
+  z-index: 60;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  background: rgb(10 11 13 / 0.5);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.28s, visibility 0.28s;
+}
+
+.janela--aberta { opacity: 1; visibility: visible; }
+
+.painel {
+  inline-size: 340px;
+  max-inline-size: 100%;
+  max-block-size: 90dvh;
+  overflow: auto;
+  padding: 1.4rem;
+  border-radius: var(--curva-g);
+  background: var(--papel-alto);
+  color: var(--tinta);
+  box-shadow: var(--sombra-alta);
+  transform: translateY(12px) scale(0.98);
+  transition: transform 0.28s cubic-bezier(0.2, 0.8, 0.3, 1);
+}
+
+.janela--aberta .painel { transform: none; }
+
+.painel-titulo {
+  margin-block-end: 0.3rem;
+  font-size: 1.05rem;
+}
+
+.painel-texto {
+  margin-block-end: 1rem;
+  color: var(--tinta-fraca);
+  font-size: 0.82rem;
+}
+
+.painel-acoes {
+  display: flex;
+  gap: 0.5rem;
+  margin-block-start: 1.1rem;
+}
+
+.botao {
+  flex: 1;
+  padding: 0.55rem 1rem;
+  border: 1px solid transparent;
+  border-radius: var(--curva-p);
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-align: center;
+  text-decoration: none;
+  transition: opacity 0.16s, background 0.16s, border-color 0.16s;
+}
+
+.botao--cheio {
+  background: var(--realce);
+  color: var(--realce-texto);
+}
+
+.botao--cheio:hover { opacity: 0.88; }
+
+.botao--vazio {
+  border-color: var(--risco-forte);
+  color: var(--tinta-fraca);
+}
+
+.botao--vazio:hover { background: var(--papel-fundo); color: var(--tinta); }
+
+
+/* ================================================================
+   9. COMPUTADOR — a lateral vira coluna
+================================================================ */
+
+@media (min-width: 1024px) {
+  :root { --trilha-alta: 0px; --topo-alto: 0px; }
+
+  .lateral {
+    inset-block: 0 auto;
+    inset-inline: 0 auto;
+    block-size: 100dvh;
+    inline-size: var(--trilha-larga);
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1.5rem;
+    padding: 1.5rem 1rem;
+    border-block-end: none;
+    border-inline-end: 1px solid var(--risco);
+  }
+
+  /* Na coluna, nada rola por trás: fundo chapado, sem fosco. */
+  .lateral::before {
+    background: var(--papel);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+
+  .marca {
+    margin-inline-end: 0;
+    padding-inline-start: 0.4rem;
+  }
+
+  .marca-logo { inline-size: 38px; block-size: 38px; }
+  .marca-nome { font-size: 1.05rem; }
+
+  /* A navegação volta para dentro da lateral, na vertical. */
+  .trilha {
+    position: static;
+    flex-direction: column;
+    gap: 2px;
+    padding-block-end: 0;
+    border-block-start: none;
+    background: none;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    margin-block-end: auto;
+  }
+
+  .trilha-item {
+    flex: initial;
+    flex-direction: row;
+    justify-content: flex-start;
+    gap: 0.65rem;
+    block-size: auto;
+    padding: 0.55rem 0.7rem;
+    border-radius: var(--curva-p);
+    font-size: 0.85rem;
+    transition: background 0.16s, color 0.16s;
+  }
+
+  .trilha-item:hover { background: var(--papel-fundo); color: var(--tinta); }
+
+  .trilha-item--ativo {
+    background: var(--realce);
+    color: var(--realce-texto);
+  }
+
+  .trilha-item--ativo:hover {
+    background: var(--realce);
+    color: var(--realce-texto);
+  }
+
+  /* O traço do menu inferior não faz sentido na coluna. */
+  .trilha-item--ativo::before { content: none; }
+
+  /* Na coluna há espaço para o nome da ação ao lado do símbolo. */
+  .acoes {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1px;
+  }
+
+  .acao {
+    justify-content: flex-start;
+    padding: 0.45rem 0.7rem;
+  }
+
+  .acao-texto {
+    position: static;
+    inline-size: auto;
+    block-size: auto;
+    margin: 0;
+    clip-path: none;
+  }
+
+  .tema { align-self: flex-start; }
+
+  .conteudo {
+    max-inline-size: none;
+    margin-inline: 0;
+    padding-block: 2.2rem 4rem;
+    padding-inline: calc(var(--trilha-larga) + 2.4rem) 2.4rem;
+  }
+
+  /* Com a lateral ocupando a esquerda, o texto ainda precisa de um
+     limite de largura para não virar uma linha longa demais. */
+  .tela { max-inline-size: 880px; }
+
+  #ao-topo,
+  .notas { inset-block-end: 1.5rem; }
+
+  .notas { inset-inline: auto 1.5rem; align-items: flex-end; }
+}
+
+
+/* ================================================================
+   10. TELA MUITO ESTREITA
+================================================================ */
+
+@media (max-width: 380px) {
+  .conteudo { padding-inline: 0.9rem; }
+  .marca-periodo { display: none; }
+  .trilha-item { font-size: 0.6rem; }
+}

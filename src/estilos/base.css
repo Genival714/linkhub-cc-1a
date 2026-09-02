@@ -1,0 +1,316 @@
+/* ================================================================
+   Linkhub CC 1A · Base
+   Reset, variáveis, tipografia e as regras que valem para tudo.
+================================================================ */
+
+/* ── Reset ──────────────────────────────────────────────────── */
+
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+body, h1, h2, h3, h4, p, figure, blockquote, ul, ol, dl, dd {
+  margin: 0;
+}
+
+ul[class], ol[class] { list-style: none; padding: 0; }
+
+img, svg, canvas, iframe { display: block; max-inline-size: 100%; }
+
+button, input, select, textarea { font: inherit; color: inherit; }
+
+button { background: none; border: none; cursor: pointer; }
+
+a { color: inherit; }
+
+/* O atributo hidden é a última palavra: sem isto, qualquer `display`
+   declarado numa classe venceria o display:none do navegador e o
+   elemento continuaria à vista. */
+[hidden] { display: none !important; }
+
+
+/* ================================================================
+   VARIÁVEIS
+
+   A casca do site é neutra de propósito — tinta sobre papel. A
+   única cor saturada da página pertence às matérias, e é isso que
+   faz uma prova de Sistemas Digitais se distinguir de uma entrega
+   de Projeto 1 num relance. Um acento colorido na interface
+   competiria com essas sete cores e embaralharia o sinal.
+================================================================ */
+
+:root {
+  /* ── Superfícies ─────────────────────────────────────────── */
+  --papel:        #f7f6f3;   /* fundo da página */
+  --papel-alto:   #ffffff;   /* cartões e painéis */
+  --papel-fundo:  #edebe6;   /* recuos, trilhos, campos */
+
+  /* ── Traços ──────────────────────────────────────────────── */
+  --tinta:        #1b1d21;   /* texto principal        15,6:1 */
+  --tinta-fraca:  #5c6169;   /* texto de apoio          5,8:1 */
+  --tinta-tenue:  #696e76;   /* legendas e rótulos      4,8:1 */
+  --risco:        #e2dfd8;   /* bordas */
+  --risco-forte:  #cdc9c0;
+
+  /* ── Interação ───────────────────────────────────────────── */
+  /* Sem matiz: o estado ativo é a própria tinta, invertida. */
+  --realce:       #1b1d21;
+  --realce-texto: #f7f6f3;
+
+  /* ── Forma ───────────────────────────────────────────────── */
+  --curva-p: 8px;
+  --curva-m: 14px;
+  --curva-g: 20px;
+
+  --sombra-baixa: 0 1px 2px rgb(27 29 33 / .06), 0 3px 10px rgb(27 29 33 / .05);
+  --sombra-alta:  0 8px 20px rgb(27 29 33 / .10), 0 24px 60px rgb(27 29 33 / .14);
+
+  /* ── Tipografia ──────────────────────────────────────────── */
+  --fonte-titulo: 'Fraunces', 'Iowan Old Style', Georgia, serif;
+  --fonte-texto:  'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+  /* ── Medidas da casca ────────────────────────────────────── */
+  --trilha-larga: 236px;   /* barra lateral no computador */
+  --trilha-alta:  62px;    /* menu inferior no celular */
+  --topo-alto:    52px;    /* faixa da marca no celular */
+
+  /* ══ CORES DAS MATÉRIAS ═══════════════════════════════════
+     ►► Este bloco é a fonte única das cores por matéria. Para
+        trocar a cor de uma, mude aqui.
+
+     Cada matéria tem dois valores:
+       --c-XX      matiz cheia — pinos, bordas, faixas, fundos
+       --c-XX-txt  variante legível, usada só em TEXTO pequeno
+
+     O texto precisa da variante porque a matiz cheia sobre o fundo
+     claro da etiqueta fica abaixo dos 4,5:1 que a WCAG AA pede. A
+     versão -txt alcança o contraste sem mudar o matiz, então a
+     identidade visual continua a mesma.
+
+     Conferido: no tema claro todas passam de 4,7:1 sobre a
+     etiqueta, sobre o cartão e sobre o papel.
+
+     A cor NUNCA é o único sinal — sempre acompanha sigla e símbolo. */
+  --c-ic:   #2456c8;  --c-ic-txt:   #1e4bb0;   /* Introdução à Computação    · azul     */
+  --c-mc:   #6d28d9;  --c-mc-txt:   #6425c9;   /* Matemática para Computação · violeta  */
+  --c-sd:   #047857;  --c-sd-txt:   #046b4e;   /* Sistemas Digitais          · esmeralda*/
+  --c-fp:   #a16207;  --c-fp-txt:   #8a5406;   /* Fundamentos de Programação · mostarda */
+  --c-fp1:  #be185d;  --c-fp1-txt:  #ad1655;   /* FP1 Gestão de Pessoas      · carmim   */
+  --c-p1:   #0e7490;  --c-p1-txt:   #0c6580;   /* Projeto 1                  · ciano    */
+  --c-inst: #4b5563;  --c-inst-txt: #454d59;   /* Institucional              · grafite  */
+  --c-feriado: #b91c1c;
+}
+
+[data-tema="escuro"] {
+  --papel:        #14161a;
+  --papel-alto:   #1c1f24;
+  --papel-fundo:  #0f1114;
+
+  --tinta:        #e8e6e1;   /* 14,5:1 */
+  --tinta-fraca:  #9aa0a8;   /*  6,9:1 */
+  --tinta-tenue:  #868d96;   /*  5,4:1 */
+  --risco:        #2a2e35;
+  --risco-forte:  #3a3f47;
+
+  --realce:       #e8e6e1;
+  --realce-texto: #14161a;
+
+  --sombra-baixa: 0 1px 2px rgb(0 0 0 / .40), 0 3px 10px rgb(0 0 0 / .30);
+  --sombra-alta:  0 8px 20px rgb(0 0 0 / .45), 0 24px 60px rgb(0 0 0 / .55);
+
+  /* Matizes clareadas para o fundo escuro. Aqui já passam de 5,4:1
+     em texto pequeno, então -txt repete a mesma cor. */
+  --c-ic:   #7ba6f5;  --c-ic-txt:   #7ba6f5;
+  --c-mc:   #b79cfa;  --c-mc-txt:   #b79cfa;
+  --c-sd:   #43d3a8;  --c-sd-txt:   #43d3a8;
+  --c-fp:   #e0b64a;  --c-fp-txt:   #e0b64a;
+  --c-fp1:  #f785b0;  --c-fp1-txt:  #f785b0;
+  --c-p1:   #54c7e0;  --c-p1-txt:   #54c7e0;
+  --c-inst: #a3adba;  --c-inst-txt: #a3adba;
+  --c-feriado: #f08a8a;
+}
+
+
+/* ================================================================
+   DOCUMENTO
+================================================================ */
+
+html {
+  scroll-behavior: smooth;
+  /* Cor de trás da rolagem elástica do iOS, para não piscar branco
+     ao puxar a página no tema escuro. */
+  background: var(--papel);
+}
+
+body {
+  min-block-size: 100dvh;
+  margin: 0;
+  background: var(--papel);
+  color: var(--tinta);
+  font-family: var(--fonte-texto);
+  font-size: 15px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Trava a rolagem da página enquanto uma janela está aberta. */
+.sem-rolagem { overflow: hidden; }
+
+
+/* ================================================================
+   TIPOGRAFIA
+================================================================ */
+
+h1, h2, h3, h4 {
+  font-family: var(--fonte-titulo);
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.012em;
+  /* Fraunces é variável: `opsz` deixa o desenho da letra mais
+     robusto em corpo pequeno e mais fino em corpo grande. */
+  font-variation-settings: 'opsz' 24;
+}
+
+h1 { font-size: 1.35rem; }
+h2 { font-size: 1.15rem; }
+h3 { font-size: 1rem; }
+
+/* Todo número de data e contagem sai em largura fixa: sem isso a
+   coluna de dias do calendário treme a cada troca de mês. */
+.alerta-dias,
+.lista-numero,
+.celula-numero,
+.leitor-contador { font-variant-numeric: tabular-nums; }
+
+
+/* ================================================================
+   FOCO
+
+   Dois anéis: um escuro e um claro, um por cima do outro. Assim a
+   marca de foco aparece tanto sobre fundo claro quanto sobre um
+   botão de fundo escuro, sem precisar de regra por componente.
+================================================================ */
+
+:focus { outline: none; }
+
+:focus-visible {
+  outline: 2px solid var(--realce);
+  outline-offset: 2px;
+  border-radius: var(--curva-p);
+  box-shadow: 0 0 0 4px var(--papel);
+}
+
+
+/* ================================================================
+   MOVIMENTO
+
+   Quem pediu menos movimento no sistema recebe menos movimento —
+   mas não menos tempo. As notas passageiras continuam com a mesma
+   duração; só param de deslizar. Zerar a animação delas as faria
+   aparecer e sumir no mesmo quadro, sem ninguém conseguir ler.
+================================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+
+  *:not(.nota),
+  *:not(.nota)::before,
+  *:not(.nota)::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .nota { animation-name: nota-vida-parada !important; }
+}
+
+
+/* ================================================================
+   PEÇAS MÍNIMAS
+   Usadas em mais de uma tela e pequenas demais para arquivo próprio.
+================================================================ */
+
+/* Selo com a sigla da matéria */
+.selo {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.1rem 0.4rem;
+  border-radius: 5px;
+  background: color-mix(in srgb, var(--c) 16%, transparent);
+  color: var(--c-txt);
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+/* Etiqueta com o tipo do evento */
+.etiqueta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.1rem 0.4rem;
+  border: 1px solid var(--risco);
+  border-radius: 5px;
+  color: var(--tinta-tenue);
+  font-size: 0.66rem;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+/* Marcador neutro: "PDF", "hoje", "em casa" */
+.marcador {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2rem;
+  padding: 0.1rem 0.38rem;
+  border-radius: 5px;
+  background: var(--papel-fundo);
+  color: var(--tinta-fraca);
+  font-size: 0.63rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+
+.marcador--vivo {
+  background: var(--realce);
+  color: var(--realce-texto);
+  text-transform: uppercase;
+}
+
+/* Presente para leitor de tela, ausente para quem enxerga. Usado
+   no título de cada tela: a trilha já diz onde a pessoa está, mas
+   quem navega por cabeçalhos precisa do <h1> mesmo assim. */
+.visualmente-oculto {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* Título de seção dentro de uma tela */
+.secao-titulo {
+  margin-block-end: 0.75rem;
+  color: var(--tinta-tenue);
+  font-family: var(--fonte-texto);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+}
+
+.secao-nota {
+  margin-block: -0.4rem 0.9rem;
+  color: var(--tinta-fraca);
+  font-size: 0.8rem;
+}
+
+.secao + .secao { margin-block-start: 2.6rem; }

@@ -1,0 +1,10 @@
+# Site da turma 1A de Ciencia da Computacao - CESAR School
+# Fora dos buscadores: quem tem o link acessa normalmente.
+#
+# Atencao: num endereco de subpasta (usuario.github.io/linkhub-cc-1a/)
+# este arquivo e IGNORADO pelos buscadores, porque o robots.txt so vale
+# na raiz do dominio. Quem faz o trabalho e a meta tag robots do
+# index.html. Este arquivo serve caso o site va para um dominio proprio.
+
+User-agent: *
+Disallow: /

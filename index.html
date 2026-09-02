@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+
+  <title>Linkhub · Turma CC 1A · CESAR School</title>
+  <meta name="description" content="Agenda, planos de ensino, semana de aula e documentos da turma 1A de Ciência da Computação da CESAR School — semestre 2026.2.">
+
+  <!-- Fora dos buscadores. O site é da turma: quem tem o endereço
+       entra normalmente, mas os documentos da escola e os e-mails
+       dos professores não viram resultado de busca público.
+
+       Num endereço de subpasta (usuario.github.io/linkhub-cc-1a/)
+       esta meta tag é o que de fato funciona — o robots.txt teria
+       de estar na raiz do domínio, que pertence a outro repositório.
+       O nofollow também evita que os buscadores sigam os links para
+       os PDFs. -->
+  <meta name="robots" content="noindex, nofollow">
+
+  <link rel="icon" type="image/png" href="assets/img/school_laranja.png">
+  <link rel="apple-touch-icon" href="assets/img/school_laranja.png">
+  <link rel="manifest" href="manifest.webmanifest">
+  <meta name="theme-color" content="#f7f6f3">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400..700&family=Inter:wght@400..700&display=swap">
+
+  <link rel="stylesheet" href="src/estilos/base.css">
+  <link rel="stylesheet" href="src/estilos/casca.css">
+  <link rel="stylesheet" href="src/estilos/componentes.css">
+
+  <!-- O tema é aplicado antes da primeira pintura. Deixar isso para
+       o módulo faria a página piscar clara antes de ficar escura, no
+       carregamento de quem escolheu o tema escuro. -->
+  <script>
+    (function () {
+      var escolha;
+      try { escolha = localStorage.getItem("linkhub:tema"); } catch (e) { /* bloqueado */ }
+      var escuro = escolha === "escuro" ||
+        ((!escolha || escolha === "sistema") &&
+          window.matchMedia("(prefers-color-scheme: dark)").matches);
+      document.documentElement.dataset.tema = escuro ? "escuro" : "claro";
+    })();
+  </script>
+</head>
+
+<body>
+
+  <!-- Sentinela do botão "ao topo": enquanto ela estiver à vista, a
+       página está no começo e o botão não precisa aparecer. -->
+  <div id="sentinela-topo" aria-hidden="true"></div>
+
+
+  <!-- ══════════════════════════════════════════════════════════
+       LATERAL
+       No computador é a coluna da esquerda. No celular vira a faixa
+       do topo, e a trilha se destaca dela para o rodapé.
+  ══════════════════════════════════════════════════════════════ -->
+  <aside class="lateral">
+
+    <a class="marca" href="#painel">
+      <img class="marca-logo" src="assets/img/school_laranja.png" alt="CESAR School" width="38" height="38">
+      <span class="marca-texto">
+        <span class="marca-nome">Turma <span id="marca-turma">CC 1A</span></span>
+        <span class="marca-periodo" id="marca-periodo"></span>
+      </span>
+    </a>
+
+    <nav class="trilha" aria-label="Seções do site">
+      <a class="trilha-item" data-tela="painel" href="#painel">
+        <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M2.8 8.4 10 2.8l7.2 5.6V16a1.2 1.2 0 0 1-1.2 1.2h-3.6v-5.1H7.6v5.1H4a1.2 1.2 0 0 1-1.2-1.2Z"/>
+        </svg>
+        <span>Painel</span>
+      </a>
+
+      <a class="trilha-item" data-tela="agenda" href="#agenda">
+        <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <rect x="2.9" y="4.4" width="14.2" height="12.7" rx="1.8"/>
+          <path d="M2.9 8.5h14.2M6.6 2.6v3.4M13.4 2.6v3.4"/>
+          <circle cx="7" cy="12" r=".95" fill="currentColor" stroke="none"/>
+          <circle cx="13" cy="12" r=".95" fill="currentColor" stroke="none"/>
+        </svg>
+        <span>Agenda</span>
+      </a>
+
+      <a class="trilha-item" data-tela="materias" href="#materias">
+        <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M10 5.6C8.7 4.2 6.9 3.5 4.4 3.5a1 1 0 0 0-1 1v9.1a1 1 0 0 0 1 1c2.5 0 4.3.7 5.6 2.1"/>
+          <path d="M10 5.6c1.3-1.4 3.1-2.1 5.6-2.1a1 1 0 0 1 1 1v9.1a1 1 0 0 1-1 1c-2.5 0-4.3.7-5.6 2.1"/>
+          <path d="M10 5.6v11.1"/>
+        </svg>
+        <span>Matérias</span>
+      </a>
+
+      <a class="trilha-item" data-tela="arquivos" href="#arquivos">
+        <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M5.6 2.4h5.1l4.4 4.4v9.7a1.1 1.1 0 0 1-1.1 1.1H5.6a1.1 1.1 0 0 1-1.1-1.1V3.5a1.1 1.1 0 0 1 1.1-1.1Z"/>
+          <path d="M10.5 2.4v4.6h4.6M7.3 11.2h5.4M7.3 14h3.6"/>
+        </svg>
+        <span>Arquivos</span>
+      </a>
+    </nav>
+
+    <div class="acoes">
+      <button class="acao" id="acao-compartilhar" type="button">
+        <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M10 13V2.9M6.4 6.4 10 2.8l3.6 3.6"/>
+          <path d="M4 11.6V16a1.2 1.2 0 0 0 1.2 1.2h9.6A1.2 1.2 0 0 0 16 16v-4.4"/>
+        </svg>
+        <span class="acao-texto">Compartilhar</span>
+      </button>
+
+      <button class="acao" id="acao-qr" type="button">
+        <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" aria-hidden="true">
+          <rect x="2.6" y="2.6" width="5.6" height="5.6" rx="1.2"/>
+          <rect x="11.8" y="2.6" width="5.6" height="5.6" rx="1.2"/>
+          <rect x="2.6" y="11.8" width="5.6" height="5.6" rx="1.2"/>
+          <path d="M11.8 11.8h2.4v2.4h-2.4zM15 15h2.4v2.4H15z"/>
+        </svg>
+        <span class="acao-texto">QR Code</span>
+      </button>
+
+      <button class="acao" id="acao-instalar" type="button" hidden>
+        <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <rect x="5.6" y="2.2" width="8.8" height="15.6" rx="1.8"/>
+          <path d="M10 7v4.6M8.2 9.9 10 11.8l1.8-1.9"/>
+        </svg>
+        <span class="acao-texto">Instalar</span>
+      </button>
+
+      <a class="acao" id="acao-grupo" href="#" target="_blank" rel="noopener">
+        <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M17 9.4c0 3.4-3.1 6.2-7 6.2-.8 0-1.6-.1-2.4-.4l-4.1 1.3 1.2-3.4A5.9 5.9 0 0 1 3 9.4c0-3.4 3.1-6.2 7-6.2s7 2.8 7 6.2Z"/>
+          <path d="M7.4 9.4h.01M10 9.4h.01M12.6 9.4h.01"/>
+        </svg>
+        <span class="acao-texto">Grupo da turma</span>
+      </a>
+    </div>
+
+    <div class="tema" role="radiogroup" aria-label="Tema da página">
+      <button class="tema-opcao" type="button" role="radio" aria-checked="false"
+              data-tema-opcao="claro" title="Tema claro" aria-label="Tema claro">
+        <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true">
+          <circle cx="10" cy="10" r="3.4"/>
+          <path d="M10 2.4v1.8M10 15.8v1.8M2.4 10h1.8M15.8 10h1.8M4.6 4.6l1.3 1.3M14.1 14.1l1.3 1.3M15.4 4.6l-1.3 1.3M5.9 14.1l-1.3 1.3"/>
+        </svg>
+      </button>
+
+      <button class="tema-opcao" type="button" role="radio" aria-checked="false"
+              data-tema-opcao="escuro" title="Tema escuro" aria-label="Tema escuro">
+        <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M16.2 12.4A6.9 6.9 0 0 1 7.6 3.8a6.9 6.9 0 1 0 8.6 8.6Z"/>
+        </svg>
+      </button>
+
+      <button class="tema-opcao" type="button" role="radio" aria-checked="false"
+              data-tema-opcao="sistema" title="Acompanhar o sistema" aria-label="Acompanhar o tema do sistema">
+        <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <rect x="2.6" y="3.8" width="14.8" height="9.8" rx="1.4"/>
+          <path d="M7.2 17h5.6M10 13.6V17"/>
+        </svg>
+      </button>
+    </div>
+
+  </aside>
+
+
+  <!-- ══════════════════════════════════════════════════════════
+       CONTEÚDO
+  ══════════════════════════════════════════════════════════════ -->
+  <main class="conteudo">
+
+    <!-- ── Tela: Painel ─────────────────────────────────────── -->
+    <section class="tela tela--ativa" id="tela-painel" aria-labelledby="titulo-painel">
+      <h1 class="visualmente-oculto" id="titulo-painel">Painel da turma</h1>
+
+      <section class="secao">
+        <h2 class="secao-titulo">Não deixe passar</h2>
+        <div class="alerta-lista" id="alerta-lista"></div>
+      </section>
+
+      <section class="secao">
+        <h2 class="secao-titulo">Atalhos</h2>
+        <div class="atalhos" id="atalhos-lista"></div>
+      </section>
+
+      <section class="secao">
+        <h2 class="secao-titulo">Semana de aula</h2>
+        <div class="semana" id="semana-grade"></div>
+      </section>
+
+      <section class="secao">
+        <h2 class="secao-titulo">Monitorias</h2>
+        <ul class="monitorias" id="monitorias-lista"></ul>
+      </section>
+    </section>
+
+
+    <!-- ── Tela: Agenda ─────────────────────────────────────── -->
+    <section class="tela" id="tela-agenda" aria-labelledby="titulo-agenda" hidden>
+      <h1 class="visualmente-oculto" id="titulo-agenda">Agenda do semestre</h1>
+
+      <section class="secao">
+        <div class="secao-cabeca">
+          <h2 class="secao-titulo">Semestre 2026.2</h2>
+          <div class="gangorra">
+            <button class="gangorra-opcao" id="agenda-modo-malha" type="button" aria-pressed="true">Mês</button>
+            <button class="gangorra-opcao" id="agenda-modo-lista" type="button" aria-pressed="false">Lista</button>
+          </div>
+        </div>
+
+        <div class="peneiras">
+          <div class="peneiras-materias" id="agenda-filtros" role="group" aria-label="Filtrar por matéria"></div>
+          <button class="peneira peneira--recorte" id="agenda-so-notas" type="button" aria-pressed="false">
+            <span class="peneira-pino" aria-hidden="true"></span>Só avaliações
+          </button>
+        </div>
+
+        <div class="agenda-nav" id="agenda-navegacao">
+          <button class="agenda-passo" id="agenda-anterior" type="button" aria-label="Mês anterior">
+            <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M12 4.5 6.5 10l5.5 5.5"/>
+            </svg>
+          </button>
+          <h3 class="agenda-mes" id="agenda-mes" aria-live="polite">—</h3>
+          <button class="agenda-passo" id="agenda-proximo" type="button" aria-label="Próximo mês">
+            <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M8 4.5 13.5 10 8 15.5"/>
+            </svg>
+          </button>
+          <button class="agenda-hoje" id="agenda-hoje" type="button">Hoje</button>
+        </div>
+
+        <div class="malha-rolo" id="agenda-malha-caixa">
+          <div class="malha" id="agenda-malha" role="grid" aria-label="Calendário do mês"></div>
+        </div>
+
+        <div class="lista" id="agenda-lista" hidden></div>
+
+        <div class="dia" id="agenda-dia" hidden></div>
+      </section>
+
+      <section class="secao">
+        <h2 class="secao-titulo">Atividades sem data marcada</h2>
+        <p class="secao-nota">
+          Valem nota e não caem no calendário — é fácil deixar para depois e esquecer.
+        </p>
+        <ul class="extras" id="extras-lista"></ul>
+      </section>
+    </section>
+
+
+    <!-- ── Tela: Matérias ───────────────────────────────────── -->
+    <section class="tela" id="tela-materias" aria-labelledby="titulo-materias" hidden>
+      <h1 class="visualmente-oculto" id="titulo-materias">Matérias do 1º período</h1>
+
+      <section class="secao">
+        <h2 class="secao-titulo">Matérias do 1º período</h2>
+        <p class="secao-nota">Como cada nota é composta, segundo o plano de ensino oficial.</p>
+        <div class="fichas" id="materias-lista"></div>
+      </section>
+    </section>
+
+
+    <!-- ── Tela: Arquivos ───────────────────────────────────── -->
+    <section class="tela" id="tela-arquivos" aria-labelledby="titulo-arquivos" hidden>
+      <h1 class="visualmente-oculto" id="titulo-arquivos">Arquivos da turma</h1>
+
+      <section class="secao">
+        <h2 class="secao-titulo">Arquivos</h2>
+        <p class="secao-nota">Clique para ler sem sair do site. O botão de baixar fica dentro da leitura.</p>
+        <div id="arquivos-lista"></div>
+      </section>
+    </section>
+
+
+    <footer class="rodape">
+      <p id="rodape-credito"></p>
+      <div class="rodape-links" id="rodape-links"></div>
+      <p class="rodape-nota">
+        Datas transcritas dos Planos de Ensino e do Calendário Acadêmico 2026.2.
+        Os professores podem alterar o cronograma durante o semestre — na dúvida,
+        confirme em sala.
+      </p>
+    </footer>
+
+  </main>
+
+
+  <button id="ao-topo" type="button" aria-label="Voltar ao topo">
+    <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M10 15.5V4.8M5.5 9.3 10 4.8l4.5 4.5"/>
+    </svg>
+  </button>
+
+
+  <!-- ══════════════════════════════════════════════════════════
+       JANELAS
+  ══════════════════════════════════════════════════════════════ -->
+
+  <!-- QR Code -->
+  <div class="janela" id="janela-qr" aria-hidden="true">
+    <div class="painel" role="dialog" aria-modal="true" aria-labelledby="qr-titulo">
+      <h2 class="painel-titulo" id="qr-titulo">Código do site</h2>
+      <p class="painel-texto">Aponte a câmera de outro celular para abrir este site.</p>
+
+      <div id="qr-alvo"></div>
+      <p id="qr-endereco"></p>
+
+      <div class="painel-acoes">
+        <button class="botao botao--cheio" id="qr-baixar" type="button">Salvar imagem</button>
+        <button class="botao botao--vazio" type="button" data-fecha-janela>Fechar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Instalar (só aparece onde o navegador não oferece o convite) -->
+  <div class="janela" id="janela-instalar" aria-hidden="true">
+    <div class="painel" role="dialog" aria-modal="true" aria-labelledby="instalar-titulo">
+      <h2 class="painel-titulo" id="instalar-titulo">Deixar na tela de início</h2>
+      <p class="painel-texto">
+        O Safari não instala sozinho: toque no botão de compartilhar do
+        navegador e escolha <strong>Adicionar à Tela de Início</strong>.
+        O site passa a abrir como aplicativo e funciona sem internet.
+      </p>
+      <div class="painel-acoes">
+        <button class="botao botao--cheio" type="button" data-fecha-janela>Entendi</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Leitura de documento -->
+  <div class="janela" id="janela-arquivo" aria-hidden="true">
+    <div class="painel painel--leitor" role="dialog" aria-modal="true" aria-labelledby="arquivo-titulo">
+
+      <header class="leitor-cabeca">
+        <div class="leitor-identidade">
+          <span class="leitor-marca" id="arquivo-marca" aria-hidden="true">📄</span>
+          <div>
+            <h2 class="leitor-titulo" id="arquivo-titulo">Documento</h2>
+            <p class="leitor-resumo" id="arquivo-resumo"></p>
+          </div>
+        </div>
+        <button class="leitor-fechar" type="button" data-fecha-janela aria-label="Fechar a leitura">✕</button>
+      </header>
+
+      <div class="leitor-corpo" id="arquivo-corpo"></div>
+
+      <footer class="leitor-acoes">
+        <a class="botao botao--cheio" id="arquivo-baixar" href="#" download>Baixar</a>
+        <a class="botao botao--vazio" id="arquivo-nova-aba" href="#" target="_blank" rel="noopener">Abrir em nova aba</a>
+      </footer>
+
+    </div>
+  </div>
+
+
+  <script type="module" src="src/scripts/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,46 @@
+{
+  "name": "Linkhub · Turma CC 1A · CESAR School",
+  "short_name": "Linkhub 1A",
+  "description": "Agenda, planos de ensino, semana de aula e documentos da turma 1A de Ciência da Computação da CESAR School — semestre 2026.2.",
+  "lang": "pt-BR",
+  "dir": "ltr",
+  "start_url": "./",
+  "scope": "./",
+  "id": "linkhub-cc-1a",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#f7f6f3",
+  "theme_color": "#f7f6f3",
+  "categories": ["education", "productivity"],
+  "icons": [
+    {
+      "src": "assets/img/school_laranja.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "assets/img/school_laranja.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Agenda do semestre",
+      "short_name": "Agenda",
+      "url": "./#agenda"
+    },
+    {
+      "name": "Matérias e notas",
+      "short_name": "Matérias",
+      "url": "./#materias"
+    },
+    {
+      "name": "Arquivos da turma",
+      "short_name": "Arquivos",
+      "url": "./#arquivos"
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+# Dependências e artefatos locais — não precisam ir para o repositório
+node_modules/
+
+# Sistema operacional
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editores
+.vscode/
+.idea/
+
+# Projeto de referencia de outra turma — nunca deve subir junto
+linkhub_cc-b-*/
+
+# Arquivos de teste temporarios
+.teste-*.html
+.capturas/

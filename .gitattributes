@@ -1,0 +1,12 @@
+# Normaliza as quebras de linha por padrão
+* text=auto
+
+# O cmd.exe exige CRLF: com quebras de linha Unix o Windows responde
+# "não é reconhecido como um comando". Esta regra garante o formato
+# certo mesmo em quem clonar de um Mac ou Linux.
+*.cmd text eol=crlf
+
+# Binários e bibliotecas de terceiros ficam como estão
+*.png binary
+*.pdf binary
+assets/vendor/** -text
