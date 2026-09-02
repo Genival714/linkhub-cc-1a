@@ -10,7 +10,8 @@
 
 import { TURMA } from "../dados/turma.js";
 import { MATERIA_POR_ID } from "../dados/materias.js";
-import { limpo, pega, classes } from "../nucleo/dom.js";
+import { limpo, pega, classes, delega } from "../nucleo/dom.js";
+import { nota } from "../nucleo/nota.js";
 import { tintaDe, nomeDe } from "../nucleo/paleta.js";
 import { EVENTOS, valeNota } from "../nucleo/eventos.js";
 import { selo, etiqueta } from "../nucleo/pecas.js";
@@ -233,6 +234,100 @@ export function montaSemana() {
 //  4. Monitorias
 // ============================================================
 
+const COPIA = `
+  <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6"
+       stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <rect x="7.5" y="7.5" width="9" height="9" rx="2"/>
+    <path d="M12.5 4.5h-8a2 2 0 00-2 2v8"/>
+  </svg>`;
+
+const CHEVRON = `
+  <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8"
+       stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <path d="M5 8l5 5 5-5"/>
+  </svg>`;
+
+// Primeira e última inicial: "João Pedro S. Menezes" → "JM". Nome de
+// uma palavra só usa as duas primeiras letras, para o disco nunca
+// ficar com um caractere solitário no meio.
+function iniciaisDe(nome) {
+  const partes = String(nome).trim().split(/\s+/);
+  if (partes.length === 1) return partes[0].slice(0, 2).toUpperCase();
+  return (partes[0][0] + partes[partes.length - 1][0]).toUpperCase();
+}
+
+const MAX_PILHA = 4;   // discos na prévia da aba fechada
+
+// Na lousa, o contato de Slack de alguém pode ser o próprio e-mail.
+// Repetir o mesmo endereço duas vezes no cartão não informa nada.
+const slackDe = (p) => (p.slack && p.slack !== p.email ? p.slack : "");
+
+// A prévia é o que convence a abrir: fechada, a aba já mostra rostos
+// e o número de gente disponível, em vez de uma linha de texto.
+function pilhaDe(monitores) {
+  // Um "+1" ocuparia o mesmo espaço do disco que ele esconde, então
+  // uma pessoa a mais que o limite entra inteira na pilha.
+  const cabe = monitores.length <= MAX_PILHA + 1 ? monitores.length : MAX_PILHA;
+  const mostra = monitores.slice(0, cabe);
+  const resto = monitores.length - mostra.length;
+
+  const discos = mostra
+    .map((p) => `<span class="equipe-face">${limpo(iniciaisDe(p.nome))}</span>`)
+    .join("");
+
+  const sobra = resto
+    ? `<span class="equipe-face equipe-face--resto">+${resto}</span>`
+    : "";
+
+  return `<span class="equipe-pilha" aria-hidden="true">${discos}${sobra}</span>`;
+}
+
+function cartaoDeMonitor(p, i) {
+  const email = limpo(p.email);
+  const slack = slackDe(p);
+
+  return `
+    <li class="monitor" style="--i:${i}">
+      <span class="monitor-face" aria-hidden="true">${limpo(iniciaisDe(p.nome))}</span>
+
+      <div class="monitor-dados">
+        <p class="monitor-nome">${limpo(p.nome)}</p>
+        ${slack ? `<p class="monitor-slack">${limpo(slack)}</p>` : ""}
+      </div>
+
+      <div class="monitor-contato">
+        <a class="monitor-mail" href="mailto:${email}">${email}</a>
+        <button class="monitor-copia" type="button" data-copia="${email}"
+                aria-label="Copiar o e-mail de ${limpo(p.nome)}"
+                title="Copiar e-mail">${COPIA}</button>
+      </div>
+    </li>`;
+}
+
+// A lista nasce fechada: onze nomes abertos empurrariam o resto do
+// Painel para fora da primeira tela. O campo é opcional — matéria sem
+// monitor divulgado continua com o card de uma linha só.
+function equipeDe(monitores) {
+  if (!monitores?.length) return "";
+
+  const quantos = monitores.length;
+  const temSlack = monitores.some(slackDe);
+
+  return `
+    <details class="equipe">
+      <summary class="equipe-aba">
+        ${pilhaDe(monitores)}
+        <span class="equipe-rotulo">
+          <strong>${quantos} ${quantos === 1 ? "monitor" : "monitores"}</strong>
+          <span>${temSlack ? "Slack e e-mail" : "E-mail"} · toque para ver</span>
+        </span>
+        <span class="equipe-seta">${CHEVRON}</span>
+      </summary>
+
+      <ul class="equipe-grade">${monitores.map(cartaoDeMonitor).join("")}</ul>
+    </details>`;
+}
+
 export function montaMonitorias() {
   pega("#monitorias-lista").innerHTML = TURMA.monitorias
     .map((m) => {
@@ -247,18 +342,39 @@ export function montaMonitorias() {
         ? `<a class="monitoria-acao" href="${limpo(m.link)}" target="_blank" rel="noopener">Entrar</a>`
         : `<span class="monitoria-acao monitoria-acao--inerte">${semHorario ? "A definir" : "Presencial"}</span>`;
 
+      const equipe = equipeDe(m.monitores);
+
       return `
-        <li class="monitoria" style="${tintaDe(m.materia)}">
-          <span class="monitoria-pino" aria-hidden="true"></span>
-          <div class="monitoria-corpo">
-            <p class="monitoria-materia">${limpo(nomeDe(m.materia))}</p>
-            <p class="monitoria-quando">${quando}${onde ? ` · ${limpo(onde)}` : ""}</p>
+        <li class="${classes("monitoria", equipe && "monitoria--com-equipe")}"
+            style="${tintaDe(m.materia)}">
+          <div class="monitoria-topo">
+            <span class="monitoria-pino" aria-hidden="true"></span>
+            <div class="monitoria-corpo">
+              <p class="monitoria-materia">${limpo(nomeDe(m.materia))}</p>
+              <p class="monitoria-quando">${quando}${onde ? ` · ${limpo(onde)}` : ""}</p>
+            </div>
+            ${acao}
           </div>
-          ${acao}
+          ${equipe}
         </li>`;
     })
     .join("");
 }
+
+// Um ouvinte só, no documento, para todos os botões de copiar — os
+// cartões são refeitos a cada render e reconectar ouvintes um a um
+// seria trabalho perdido.
+delega("click", "[data-copia]", async (botao) => {
+  const email = botao.dataset.copia;
+  try {
+    await navigator.clipboard.writeText(email);
+    nota("E-mail copiado");
+  } catch {
+    // Sem permissão de área de transferência (acontece em file://):
+    // o endereço continua à vista e clicável ao lado do botão.
+    nota("Não deu para copiar — toque no endereço ao lado", "atencao");
+  }
+});
 
 // ============================================================
 

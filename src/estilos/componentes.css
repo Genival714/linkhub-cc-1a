@@ -366,13 +366,22 @@
 .monitoria {
   --c: var(--tinta-fraca);
   --c-txt: var(--tinta-fraca);
-  display: flex;
-  align-items: center;
-  gap: 0.7rem;
   padding: 0.65rem 0.85rem;
   border: 1px solid var(--risco);
   border-radius: var(--curva-m);
   background: var(--papel-alto);
+}
+
+/* Quem tem monitor divulgado se anuncia: a borda puxa o matiz da
+   matéria, o suficiente para o olho achar o card sem que ele grite. */
+.monitoria--com-equipe {
+  border-color: color-mix(in srgb, var(--c) 28%, var(--risco));
+}
+
+.monitoria-topo {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
 }
 
 .monitoria-pino {
@@ -410,6 +419,213 @@
 }
 
 a.monitoria-acao:hover { background: color-mix(in srgb, var(--c) 24%, transparent); }
+
+
+/* ── Equipe de monitores ─────────────────────────────────────────
+   Fechada, a gaveta é um convite: mostra os primeiros rostos e
+   quanta gente há. Aberta, vira uma grade de cartões de contato.
+────────────────────────────────────────────────────────────────── */
+
+.equipe { margin-block-start: 0.6rem; }
+
+.equipe-aba {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0.45rem 0.6rem;
+  border: 1px solid color-mix(in srgb, var(--c) 22%, transparent);
+  border-radius: var(--curva-p);
+  background: color-mix(in srgb, var(--c) 7%, transparent);
+  cursor: pointer;
+  list-style: none;
+  transition: background 0.16s ease, border-color 0.16s ease;
+}
+
+/* O triângulo nativo do <details> muda de forma entre navegadores;
+   a seta própria é um SVG que gira ao abrir. */
+.equipe-aba::-webkit-details-marker { display: none; }
+.equipe-aba::marker { content: ""; }
+
+.equipe-aba:hover {
+  background: color-mix(in srgb, var(--c) 13%, transparent);
+  border-color: color-mix(in srgb, var(--c) 36%, transparent);
+}
+
+/* Discos sobrepostos, como uma lista de participantes. A borda da
+   cor do cartão é o que recorta um disco do outro. */
+.equipe-pilha {
+  display: flex;
+  flex-shrink: 0;
+}
+
+.equipe-face {
+  display: grid;
+  place-items: center;
+  inline-size: 26px;
+  block-size: 26px;
+  border: 2px solid var(--papel-alto);
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--c) 20%, var(--papel-alto));
+  color: var(--c-txt);
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.equipe-face + .equipe-face { margin-inline-start: -0.55rem; }
+
+.equipe-face--resto {
+  background: var(--papel-fundo);
+  color: var(--tinta-tenue);
+}
+
+.equipe-rotulo {
+  flex: 1;
+  min-inline-size: 0;
+  line-height: 1.3;
+}
+
+.equipe-rotulo strong {
+  display: block;
+  color: var(--c-txt);
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.equipe-rotulo span {
+  color: var(--tinta-tenue);
+  font-size: 0.68rem;
+}
+
+.equipe-seta {
+  flex-shrink: 0;
+  color: var(--c-txt);
+  transition: transform 0.2s ease;
+}
+
+.equipe-seta svg { inline-size: 16px; block-size: 16px; }
+
+.equipe[open] .equipe-seta { transform: rotate(180deg); }
+
+.equipe[open] .equipe-aba {
+  border-end-start-radius: 0;
+  border-end-end-radius: 0;
+}
+
+/* ── Grade de cartões ──────────────────────────────────────────── */
+
+/* Qualificado com `ul` de propósito: o reset `ul[class]` da base
+   zera o padding e venceria uma classe sozinha. */
+ul.equipe-grade {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(196px, 1fr));
+  gap: 0.4rem;
+  padding: 0.5rem;
+  border: 1px solid color-mix(in srgb, var(--c) 22%, transparent);
+  border-block-start: none;
+  border-end-start-radius: var(--curva-p);
+  border-end-end-radius: var(--curva-p);
+  background: color-mix(in srgb, var(--c) 4%, transparent);
+}
+
+.monitor {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0 0.55rem;
+  padding: 0.5rem 0.55rem;
+  border: 1px solid var(--risco);
+  border-radius: var(--curva-p);
+  background: var(--papel-alto);
+  /* Entram em cascata ao abrir a gaveta — o atraso vem do índice
+     do cartão, então a leitura acompanha a ordem da lista. */
+  animation: monitor-entra 0.26s ease both;
+  animation-delay: calc(var(--i) * 24ms);
+  transition: border-color 0.16s ease, transform 0.16s ease;
+}
+
+.monitor:hover {
+  border-color: color-mix(in srgb, var(--c) 45%, var(--risco));
+  transform: translateY(-1px);
+}
+
+@keyframes monitor-entra {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: none; }
+}
+
+.monitor-face {
+  grid-row: 1 / 3;
+  display: grid;
+  place-items: center;
+  inline-size: 34px;
+  block-size: 34px;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--c) 18%, transparent);
+  color: var(--c-txt);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.monitor-dados { min-inline-size: 0; }
+
+.monitor-nome {
+  color: var(--tinta);
+  font-size: 0.78rem;
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+.monitor-slack {
+  color: var(--c-txt);
+  font-size: 0.68rem;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+.monitor-contato {
+  grid-column: 2;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  margin-block-start: 0.3rem;
+}
+
+.monitor-mail {
+  flex: 1;
+  min-inline-size: 0;
+  color: var(--tinta-tenue);
+  font-size: 0.67rem;
+  text-decoration: none;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.monitor-mail:hover { color: var(--tinta); text-decoration: underline; }
+
+.monitor-copia {
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  padding: 0.2rem;
+  border-radius: var(--curva-p);
+  color: var(--tinta-tenue);
+  transition: background 0.16s ease, color 0.16s ease;
+}
+
+.monitor-copia svg { inline-size: 15px; block-size: 15px; }
+
+.monitor-copia:hover {
+  background: color-mix(in srgb, var(--c) 16%, transparent);
+  color: var(--c-txt);
+}
+
+/* No celular a grade vira coluna única e o e-mail ganha a linha
+   inteira, sem reticências. */
+@media (max-width: 480px) {
+  ul.equipe-grade { grid-template-columns: 1fr; }
+}
 
 .monitoria-acao--inerte {
   background: var(--papel-fundo);

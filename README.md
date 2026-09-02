@@ -152,7 +152,11 @@ informação. Procure por `← preencher` no arquivo:
 - `responsavel` — nome, GitHub e LinkedIn, vão pro rodapé.
 - `endereco` — endereço final do site, usado no QR Code. Vazio usa o endereço
   atual.
-- `monitorias` — dia, horário, sala e link, quando forem divulgados.
+- `monitorias` — dia, horário, sala e link, quando forem divulgados. Cada entrada
+  aceita também `monitores: [{ nome, slack, email }]`, que vira uma gaveta de
+  contatos dentro do card (`slack` é opcional). Sistemas Digitais e Matemática
+  para Computação já estão preenchidas; as outras quatro ainda não têm monitor
+  divulgado.
 - `classroom` — em `src/scripts/dados/materias.js`, o link do Google Classroom de
   cada matéria.
 

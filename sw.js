@@ -17,7 +17,7 @@
       É isso que descarta o cache antigo dos celulares da turma.
 ================================================================ */
 
-const VERSAO = "v1";
+const VERSAO = "v2";
 
 const CACHE_CASCA = `linkhub-casca-${VERSAO}`;
 const CACHE_LIB = "linkhub-biblioteca";   // sem versão: os arquivos já são versionados
