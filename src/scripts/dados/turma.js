@@ -158,10 +158,40 @@ export const TURMA = {
   // ── Monitorias ──────────────────────────────────────────
   // Uma entrada por horário. Para vários horários da mesma
   // matéria, repita a matéria em entradas separadas.
+  //
+  // "monitores" é opcional: { nome, slack, email }. Quando tem
+  // gente na lista, o card abre uma gaveta com os contatos.
   monitorias: [
     { materia: "ic",  dia: "", horario: "", local: "A confirmar", sala: "" },
-    { materia: "mc",  dia: "", horario: "", local: "A confirmar", sala: "" },
-    { materia: "sd",  dia: "", horario: "", local: "A confirmar", sala: "" },
+
+    {
+      materia: "mc", dia: "", horario: "", local: "A confirmar", sala: "",
+      monitores: [
+        { nome: "Rodrigo Barbosa",       email: "rgb2@cesar.school" },
+        { nome: "Letícia Dornas",        slack: "lda2@cesar.school", email: "lda2@cesar.school" },
+        { nome: "João Miguel Ramos",     email: "jmrgc@cesar.school" },
+        { nome: "Danilo César",          email: "dcmbr@cesar.school" },
+        { nome: "Anna Elizabete Asfora", email: "aeals@cesar.school" },
+      ],
+    },
+
+    {
+      materia: "sd", dia: "", horario: "", local: "A confirmar", sala: "",
+      monitores: [
+        { nome: "Thony",                     slack: "@Thony",                     email: "tgab@cesar.school" },
+        { nome: "Milena S Araujo",           slack: "@Milena S Araujo",           email: "msa4@cesar.school" },
+        { nome: "João Pedro S. Menezes",     slack: "@João Pedro S. Menezes",     email: "jpsm4@cesar.school" },
+        { nome: "Rafaela Dubeux",            slack: "@RafaelaDubeux",             email: "rdg@cesar.school" },
+        { nome: "Maria Julia Dionísio",      slack: "@Maria Julia Dionísio",      email: "mjod@cesar.school" },
+        { nome: "Mari Luna",                 slack: "@Mari Luna",                 email: "maall@cesar.school" },
+        { nome: "Eraldo Carneiro Leão Neto", slack: "@Eraldo Carneiro Leão Neto", email: "ecln@cesar.school" },
+        { nome: "Kauã Cardoso",              slack: "@Kauã Cardoso",              email: "kcm2@cesar.school" },
+        { nome: "Laís Moura",                slack: "@Laís Moura",                email: "lam2@cesar.school" },
+        { nome: "Rafael Freitas",            slack: "@Rafael Freitas",            email: "rrnf@cesar.school" },
+        { nome: "Isabel Lucena",             slack: "@Isabel Lucena",             email: "ial2@cesar.school" },
+      ],
+    },
+
     { materia: "fp",  dia: "", horario: "", local: "A confirmar", sala: "" },
     { materia: "fp1", dia: "", horario: "", local: "A confirmar", sala: "" },
     { materia: "p1",  dia: "", horario: "", local: "A confirmar", sala: "" },
