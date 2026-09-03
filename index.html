@@ -177,6 +177,13 @@
     <section class="tela tela--ativa" id="tela-painel" aria-labelledby="titulo-painel">
       <h1 class="visualmente-oculto" id="titulo-painel">Painel da turma</h1>
 
+      <!-- Nasce escondida: sem aviso válido a seção inteira não
+           existe, e o título não chega a piscar antes do JS rodar. -->
+      <section class="secao" id="secao-avisos" hidden>
+        <h2 class="secao-titulo">Avisos</h2>
+        <div class="avisos" id="avisos-lista"></div>
+      </section>
+
       <section class="secao">
         <h2 class="secao-titulo">Não deixe passar</h2>
         <div class="alerta-lista" id="alerta-lista"></div>
@@ -259,7 +266,11 @@
 
       <section class="secao">
         <h2 class="secao-titulo">Matérias do 1º período</h2>
-        <p class="secao-nota">Como cada nota é composta, segundo o plano de ensino oficial.</p>
+        <p class="secao-nota">
+          Como cada nota é composta, segundo o plano de ensino oficial.
+          Os links do Classroom só abrem se o navegador estiver logado na conta
+          <strong>@cesar.school</strong> — em outra conta o Google não encontra a turma.
+        </p>
         <div class="fichas" id="materias-lista"></div>
       </section>
     </section>

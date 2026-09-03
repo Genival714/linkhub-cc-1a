@@ -17,7 +17,7 @@
       É isso que descarta o cache antigo dos celulares da turma.
 ================================================================ */
 
-const VERSAO = "v2";
+const VERSAO = "v3";
 
 const CACHE_CASCA = `linkhub-casca-${VERSAO}`;
 const CACHE_LIB = "linkhub-biblioteca";   // sem versão: os arquivos já são versionados
@@ -40,11 +40,13 @@ const CASCA = [
   "./src/scripts/dados/materias.js",
   "./src/scripts/dados/cronograma.js",
   "./src/scripts/dados/institucional.js",
+  "./src/scripts/dados/avisos.js",
 
   "./src/scripts/nucleo/datas.js",
   "./src/scripts/nucleo/dom.js",
   "./src/scripts/nucleo/estado.js",
   "./src/scripts/nucleo/eventos.js",
+  "./src/scripts/nucleo/conferencia.js",
   "./src/scripts/nucleo/paleta.js",
   "./src/scripts/nucleo/pecas.js",
   "./src/scripts/nucleo/nota.js",

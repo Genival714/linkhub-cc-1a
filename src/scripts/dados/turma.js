@@ -162,7 +162,18 @@ export const TURMA = {
   // "monitores" é opcional: { nome, slack, email }. Quando tem
   // gente na lista, o card abre uma gaveta com os contatos.
   monitorias: [
-    { materia: "ic",  dia: "", horario: "", local: "A confirmar", sala: "" },
+    {
+      materia: "ic", dia: "", horario: "", local: "A confirmar", sala: "",
+      // ← preencher: os nomes de blgv, grl2 e pvcb. Só os e-mails foram
+      // divulgados; até lá o cartão mostra o início do endereço como
+      // rótulo. O nome de tgab@ veio da lista de monitores de SD.
+      monitores: [
+        { nome: "blgv",  email: "blgv@cesar.school" },
+        { nome: "Thony", slack: "@Thony", email: "tgab@cesar.school" },
+        { nome: "grl2",  email: "grl2@cesar.school" },
+        { nome: "pvcb",  email: "pvcb@cesar.school" },
+      ],
+    },
 
     {
       materia: "mc", dia: "", horario: "", local: "A confirmar", sala: "",

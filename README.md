@@ -5,8 +5,9 @@ juntar num lugar só o que hoje tá espalhado em nove PDFs diferentes: o
 cronograma das cinco matérias, como cada nota é composta, a semana de aula, os
 links institucionais e os documentos com leitura embutida.
 
-A tela inicial já abre mostrando os próximos eventos avaliativos, pra ninguém
-ser pego de surpresa por uma prova no meio da rotina.
+A tela inicial já abre mostrando o que precisa ser feito agora e os próximos
+eventos avaliativos, pra ninguém ser pego de surpresa por uma prova no meio da
+rotina.
 
 ## Como o site é organizado
 
@@ -15,10 +16,47 @@ celular, num menu no rodapé, onde o polegar chega.
 
 | Tela | O que tem |
 |---|---|
-| **Painel** | O alerta "não deixe passar", atalhos institucionais, a semana de aula e as monitorias |
-| **Agenda** | Os 199 eventos do semestre, em malha do mês ou em lista, com filtro por matéria |
+| **Painel** | Os avisos com prazo, o alerta "não deixe passar", atalhos institucionais, a semana de aula e as monitorias |
+| **Agenda** | Os 200 eventos do semestre, em malha do mês ou em lista, com filtro por matéria |
 | **Matérias** | Uma ficha por matéria: docentes, composição da AV1 e da AV2, regras de atraso e de uso de IA |
 | **Arquivos** | Os nove documentos, com leitura dentro do site e download |
+
+## Os avisos
+
+O alerta abaixo diz **quando** é a entrega. O aviso diz **como** entregar — e
+existe porque o alerta não dava conta do caso da Lista 01 de Sistemas Digitais:
+lá, o nome do arquivo errado zera a lista inteira, por mais certas que estejam as
+questões. Isso não cabe numa linha de observação.
+
+Cadastra-se em `src/scripts/dados/avisos.js`, e o cartão monta sozinho: selo e cor
+da matéria, contagem regressiva, o link do Classroom (lido de `materias.js`, não
+duplicado aqui) e as regras.
+
+As regras vão em três níveis, porque as consequências são três e misturá-las
+esconde a que mais dói:
+
+| nível | quer dizer |
+|---|---|
+| `faca` | como fazer certo |
+| `zera` | o que zera a atividade inteira |
+| `perde` | o que faz aquela questão não pontuar |
+
+Duas coisas que valem destacar:
+
+- **O aviso vence sozinho.** Ele fica no ar o dia inteiro do `prazo` e some no dia
+  seguinte. Quando não sobra nenhum, a seção inteira desaparece — título e tudo —
+  e o Painel volta a começar por "não deixe passar". Ninguém precisa voltar lá pra
+  apagar.
+- **A checklist é do aluno.** As caixas de "antes de enviar, confira" ficam no
+  `localStorage` do aparelho de quem marcou, na chave `linkhub:conferencias`. É
+  lembrete pessoal: a escola não vê, e o site também não manda nada pra lugar
+  nenhum. Marcar uma caixa não redesenha a seção (isso fecharia a gaveta e tiraria
+  o foco de onde o dedo está) — só o placar muda. O que sobra de aviso vencido é
+  descartado no desenho seguinte.
+
+O `id` do aviso e o `id` de cada item da checklist são a chave desse
+armazenamento: mudar um deles depois de publicado apaga as marcações de quem já
+tinha conferido.
 
 ## O alerta "não deixe passar"
 
@@ -154,11 +192,16 @@ informação. Procure por `← preencher` no arquivo:
   atual.
 - `monitorias` — dia, horário, sala e link, quando forem divulgados. Cada entrada
   aceita também `monitores: [{ nome, slack, email }]`, que vira uma gaveta de
-  contatos dentro do card (`slack` é opcional). Sistemas Digitais e Matemática
-  para Computação já estão preenchidas; as outras quatro ainda não têm monitor
-  divulgado.
-- `classroom` — em `src/scripts/dados/materias.js`, o link do Google Classroom de
-  cada matéria.
+  contatos dentro do card (`slack` é opcional). Sistemas Digitais, Matemática para
+  Computação e Introdução à Computação já estão preenchidas; as outras três ainda
+  não têm monitor divulgado.
+- **Os nomes dos monitores de IC.** De `blgv@`, `grl2@` e `pvcb@` só saiu o
+  e-mail, então o cartão mostra o início do endereço no lugar do nome. O de
+  `tgab@` ("Thony") veio da lista de SD, onde a mesma pessoa também é monitora.
+
+Os seis links do Google Classroom já estão em `src/scripts/dados/materias.js`. Eles
+só abrem numa sessão logada na conta **@cesar.school** — em outra conta o Google
+não encontra a turma, e é isso que a nota no alto da tela Matérias avisa.
 
 A semana de aula já está completa, transcrita de "CC 1º Período A - Horários
 2026.2.pdf":
@@ -199,14 +242,16 @@ linkhub-cc-1a/
         ├── leitor-pdf.js      Os dois motores de leitura
         ├── dados/
         │   ├── turma.js       ◄── edita aqui (atalhos, semana, monitorias)
-        │   ├── materias.js    Docentes, ementa e composição das notas
-        │   ├── cronograma.js  159 eventos dos conteúdos programáticos
+        │   ├── materias.js    Docentes, ementa, Classroom e composição das notas
+        │   ├── avisos.js      ◄── edita aqui (recados com prazo e regras)
+        │   ├── cronograma.js  160 eventos dos conteúdos programáticos
         │   └── institucional.js  40 datas do Calendário Acadêmico
         ├── nucleo/
         │   ├── datas.js       Leitura de datas e virada do dia
         │   ├── dom.js         Escape, seleção, delegação de eventos
         │   ├── estado.js      Filtros, modo e persistência
         │   ├── eventos.js     Catálogo unificado e tipos
+        │   ├── conferencia.js Checklist dos avisos, guardada no aparelho
         │   ├── paleta.js      Cores por matéria
         │   ├── pecas.js       Selo, etiqueta e linha de evento
         │   ├── nota.js        Confirmações passageiras

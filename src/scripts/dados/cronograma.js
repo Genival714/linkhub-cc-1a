@@ -113,6 +113,7 @@ export const CRONOGRAMA = [
   { data: "2026-08-31", disc: "sd", aula: 9,  tipo: "aula", titulo: "Representação de números negativos em binário · Subtração em binário" },
   { data: "2026-09-02", disc: "sd", aula: 10, tipo: "aula", titulo: "Álgebra booleana (leis do pensamento e funções lógicas básicas)" },
   { data: "2026-09-09", disc: "sd", aula: 11, tipo: "aula", titulo: "Álgebra booleana (outras funções lógicas) · Circuitos combinacionais (expressões booleanas)" },
+  { data: "2026-09-09", disc: "sd", aula: null, tipo: "entrega", titulo: "Lista 01 — entrega até 23:59", obs: "Vale 10% da AV1 (uma das 4 listas). PDF ÚNICO, nomeado \"Lista 1_Nome Completo\". As regras completas estão no aviso do Painel." },
   { data: "2026-09-14", disc: "sd", aula: 12, tipo: "aula", titulo: "Circuitos combinacionais (representação)" },
   { data: "2026-09-16", disc: "sd", aula: 13, tipo: "aula", titulo: "Aula Quântica" },
   { data: "2026-09-21", disc: "sd", aula: 14, tipo: "aula", titulo: "Aula Quântica" },

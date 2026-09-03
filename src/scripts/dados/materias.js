@@ -26,7 +26,7 @@ export const MATERIAS = [
     docentes: [
       { nome: "Erick Simões de Matos", email: "esm@cesar.school" },
     ],
-    classroom: "",               // ← preencher
+    classroom: "https://classroom.google.com/c/ODcxNjkzMjYyNDcz",
     plano: "assets/pdfs/plano-introducao-computacao.pdf",
     ementa: "Contexto histórico e local da computação; Boas práticas do uso de IA; Princípios da Computação; Linguagens de Programação; Introdução a Sistemas Operacionais; Noções de Front End e Back End; Low-Code e No-Code; HTML, CSS e JavaScript; Markdown; Git e GitHub; Perfil profissional no LinkedIn.",
     avaliacao: {
@@ -63,7 +63,7 @@ export const MATERIAS = [
     docentes: [
       { nome: "Felipe Fernando Á. Barreto", email: "ffab@cesar.school" },
     ],
-    classroom: "",               // ← preencher
+    classroom: "https://classroom.google.com/c/ODcyMDk2MTY3Njcy",
     plano: "assets/pdfs/plano-matematica-computacao.pdf",
     ementa: "Funções, Limites, Derivadas, Integrais, Matrizes, Sistemas Lineares, Métodos Numéricos.",
     avaliacao: {
@@ -100,7 +100,7 @@ export const MATERIAS = [
       { nome: "Henrique Foresti", email: "hbf@cesar.school" },
       { nome: "Izabella Nunes", email: "inv@cesar.school" },
     ],
-    classroom: "",               // ← preencher
+    classroom: "https://classroom.google.com/c/ODcyMDI1NDI3NzU2",
     plano: "assets/pdfs/plano-sistemas-digitais.pdf",
     ementa: "Eletricidade e eletrônica básica. Prototipação com Arduino. Sistemas de numeração e codificação. Conversões binário-decimal e decimal-binário. Octal e hexadecimal. Portas lógicas e álgebra booleana. Tabelas-verdade. Circuitos combinacionais. Mapa de Karnaugh.",
     avaliacao: {
@@ -134,7 +134,7 @@ export const MATERIAS = [
       { nome: "Carol Melo", email: "accm4@cesar.school" },
       { nome: "Victor Costa", email: "vflc@cesar.school" },
     ],
-    classroom: "",               // ← preencher
+    classroom: "https://classroom.google.com/c/ODcxNDQzMDEyMTM0",
     plano: "assets/pdfs/plano-fundamentos-programacao.pdf",
     ementa: "Conceituação e aplicação de algoritmos. Desenvolvimento da lógica de programação. Expressão de soluções em termos de algoritmos estruturados. Estruturas básicas para estruturação da informação. Aplicação dos algoritmos usando Python.",
     avaliacao: {
@@ -174,7 +174,7 @@ export const MATERIAS = [
     docentes: [
       { nome: "Geysa Barlavento", email: "gpb2@cesar.school" },
     ],
-    classroom: "",               // ← preencher
+    classroom: "https://classroom.google.com/c/ODcxODAxODI4MjQw",
     plano: "assets/pdfs/plano-fp1-gestao-de-pessoas.pdf",
     ementa: "Dimensão humana em projetos. Papéis e responsabilidades. Perfis comportamentais e desenvolvimento de equipes. Liderança em projetos e liderança inclusiva. Gestão de pessoas por competências: soft e hard skills.",
     avaliacao: {
@@ -202,7 +202,7 @@ export const MATERIAS = [
     cargaHoraria: "",
     dias: ["ter", "qua", "qui"],
     docentes: [],
-    classroom: "",               // ← preencher
+    classroom: "https://classroom.google.com/c/ODcyMDczMzAyNTI1",
     site: "https://sites.google.com/cesar.school/projeto1ccdsg261/",
     plano: "",
     ementa: "Disciplina de projeto integrador. O site da disciplina concentra briefings, entregas e o material de apoio.",

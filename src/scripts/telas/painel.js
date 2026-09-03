@@ -1,27 +1,47 @@
 // ============================================================
 //  Tela · Painel
 //
-//  A primeira coisa que se vê. Responde a uma pergunta só: o que
-//  vem aí que eu não posso deixar passar?
+//  A primeira coisa que se vê. Responde a duas perguntas, nesta
+//  ordem: o que eu preciso fazer agora, e o que vem aí que eu não
+//  posso deixar passar?
 //
-//  Abaixo do alerta, o que se consulta no dia a dia — atalhos,
-//  a semana de aula e as monitorias.
+//  Abaixo disso, o que se consulta no dia a dia — atalhos, a
+//  semana de aula e as monitorias.
 // ============================================================
 
 import { TURMA } from "../dados/turma.js";
 import { MATERIA_POR_ID } from "../dados/materias.js";
+import { AVISOS } from "../dados/avisos.js";
 import { limpo, pega, classes, delega } from "../nucleo/dom.js";
 import { nota } from "../nucleo/nota.js";
 import { tintaDe, nomeDe } from "../nucleo/paleta.js";
 import { EVENTOS, valeNota } from "../nucleo/eventos.js";
 import { selo, etiqueta } from "../nucleo/pecas.js";
+import { marcadas, marca, limpaAntigas } from "../nucleo/conferencia.js";
 import {
   hoje, isoDeHoje, leData, distanciaEmDias, MESES, SEMANA_CURTA,
 } from "../nucleo/datas.js";
 
 // ============================================================
-//  1. Alerta — "não deixe passar"
+//  1. Peças compartilhadas
+//
+//  O aviso e o alerta falam da mesma coisa — a distância até uma
+//  data — e precisam falar igual. Estas peças ficam aqui em cima
+//  para que uma mudança de linguagem valha para os dois.
 // ============================================================
+
+const COPIA = `
+  <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6"
+       stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <rect x="7.5" y="7.5" width="9" height="9" rx="2"/>
+    <path d="M12.5 4.5h-8a2 2 0 00-2 2v8"/>
+  </svg>`;
+
+const CHEVRON = `
+  <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8"
+       stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <path d="M5 8l5 5 5-5"/>
+  </svg>`;
 
 // A urgência é dita por escrito e reforçada pela régua de
 // proximidade. A versão anterior usava uma escada de emojis de
@@ -52,6 +72,213 @@ function regua(dias, janela) {
       <span class="alerta-regua-cheio" style="inline-size:${cheio}%"></span>
     </div>`;
 }
+
+// ============================================================
+//  2. Avisos — o que precisa ser feito agora
+//
+//  Um recado com prazo e regras de formato. O alerta logo abaixo
+//  diz QUANDO é a entrega; o aviso diz COMO entregar sem tomar
+//  zero por causa do nome do arquivo.
+//
+//  A seção inteira some quando não há aviso válido: o Painel
+//  volta a começar por "Não deixe passar", como antes.
+// ============================================================
+
+// Três níveis, porque as consequências são três e misturá-las
+// esconde a que mais dói: uma coisa é a questão não pontuar,
+// outra é a lista inteira ser zerada.
+const SIMBOLO_NIVEL = { faca: "✅", zera: "⛔", perde: "⚠️" };
+const NOME_NIVEL = {
+  faca:  "Faça assim",
+  zera:  "Zera a atividade",
+  perde: "Não pontua",
+};
+const ORDEM_NIVEL = ["faca", "zera", "perde"];
+
+// Copiar o nome exigido é o atalho que mais evita zero: o formato
+// é literal e um espaço a mais já invalida a entrega.
+function blocoDoArquivo(aviso) {
+  if (!aviso.arquivo) return "";
+  const nome = limpo(aviso.arquivo);
+
+  return `
+    <div class="aviso-arquivo">
+      <p class="aviso-arquivo-rotulo">Nome do arquivo — exatamente assim</p>
+      <div class="aviso-arquivo-linha">
+        <code class="aviso-arquivo-nome">${nome}</code>
+        <button class="aviso-copia" type="button"
+                data-copia="${nome}" data-copia-rotulo="Nome do arquivo"
+                aria-label="Copiar o nome do arquivo"
+                title="Copiar o nome do arquivo">${COPIA}</button>
+      </div>
+      ${aviso.arquivoNota ? `<p class="aviso-arquivo-nota">${limpo(aviso.arquivoNota)}</p>` : ""}
+    </div>`;
+}
+
+// As marcações vêm do aparelho a cada desenho, então redesenhar o
+// Painel na virada do dia não apaga o que a pessoa já conferiu.
+function checklistDe(aviso) {
+  if (!aviso.conferir?.length) return "";
+
+  const jaFeitas = marcadas(aviso.id);
+  const feitos = aviso.conferir.filter((i) => jaFeitas.has(i.id)).length;
+
+  const itens = aviso.conferir
+    .map((item) => {
+      const feito = jaFeitas.has(item.id);
+      return `
+        <li>
+          <label class="${classes("confere-item", feito && "confere-item--feito")}">
+            <input type="checkbox" ${feito ? "checked" : ""}
+                   data-confere="${limpo(aviso.id)}" data-item="${limpo(item.id)}">
+            <span class="confere-texto">${limpo(item.texto)}</span>
+          </label>
+        </li>`;
+    })
+    .join("");
+
+  return `
+    <div class="confere-caixa">
+      <h4 class="aviso-bloco-titulo">
+        Antes de enviar, confira
+        <span class="aviso-placar" data-placar aria-live="polite"
+          >${feitos} de ${aviso.conferir.length}</span>
+      </h4>
+      <ul class="confere">${itens}</ul>
+    </div>`;
+}
+
+function regrasDe(aviso) {
+  if (!aviso.regras?.length) return "";
+
+  return ORDEM_NIVEL.map((nivel) => {
+    const doNivel = aviso.regras.filter((r) => r.nivel === nivel);
+    if (!doNivel.length) return "";
+
+    return `
+      <section class="aviso-nivel" data-nivel="${nivel}">
+        <h4 class="aviso-nivel-titulo">
+          <span aria-hidden="true">${SIMBOLO_NIVEL[nivel]}</span>${NOME_NIVEL[nivel]}
+        </h4>
+        <ul class="aviso-regras">
+          ${doNivel.map((r) => `<li>${limpo(r.texto)}</li>`).join("")}
+        </ul>
+      </section>`;
+  }).join("");
+}
+
+// O link do Classroom sai de materias.js — cadastrar o endereço
+// duas vezes é convite para as duas cópias divergirem.
+function acoesDoAviso(aviso) {
+  const materia = MATERIA_POR_ID[aviso.disc];
+  const botoes = [];
+
+  if (materia?.classroom) {
+    botoes.push(
+      `<a class="ficha-acao" href="${limpo(materia.classroom)}" target="_blank" rel="noopener">Abrir no Classroom</a>`,
+    );
+  }
+
+  (aviso.ajuda || []).forEach((link) => {
+    botoes.push(
+      `<a class="ficha-acao" href="${limpo(link.endereco)}" target="_blank" rel="noopener">${limpo(link.titulo)}</a>`,
+    );
+  });
+
+  if (!botoes.length) return "";
+
+  return `
+    <footer class="aviso-acoes">
+      <div class="aviso-botoes">${botoes.join("")}</div>
+      ${materia?.classroom ? '<p class="aviso-nota">O Classroom só abre na conta <strong>@cesar.school</strong>.</p>' : ""}
+      ${aviso.dica ? `<p class="aviso-nota">${limpo(aviso.dica)}</p>` : ""}
+    </footer>`;
+}
+
+function cartaoDeAviso(aviso, janela) {
+  const data = leData(aviso.prazo);
+  const dias = distanciaEmDias(data, hoje());
+
+  // Com a entrega longe, a gaveta fechada mantém o Painel legível.
+  // Na semana da entrega ela abre: a essa altura as regras deixam
+  // de ser consulta e viram o próprio recado.
+  const aberta = dias <= 7;
+
+  return `
+    <article class="aviso" data-grau="${grauDe(dias)}" style="${tintaDe(aviso.disc)}">
+      <header class="aviso-cabeca">
+        <div class="aviso-topo">${selo(aviso.disc)}${etiqueta(aviso.tipo)}</div>
+        <span class="aviso-contagem">${comoFalarDoPrazo(dias)}</span>
+      </header>
+
+      <h3 class="aviso-titulo">${limpo(aviso.titulo)}</h3>
+      <p class="aviso-quando">
+        ${aviso.hora ? `<strong>Até ${limpo(aviso.hora)}</strong> · ` : ""}${SEMANA_CURTA[data.getDay()]}, ${data.getDate()} de ${MESES[data.getMonth()]}
+      </p>
+      ${aviso.resumo ? `<p class="aviso-resumo">${limpo(aviso.resumo)}</p>` : ""}
+      ${regua(dias, janela)}
+
+      ${blocoDoArquivo(aviso)}
+
+      <details class="aviso-gaveta"${aberta ? " open" : ""}>
+        <summary class="aviso-aba">
+          <span class="aviso-aba-texto">Como entregar sem perder ponto</span>
+          <span class="aviso-seta">${CHEVRON}</span>
+        </summary>
+
+        <div class="aviso-miolo">
+          ${checklistDe(aviso)}
+          ${regrasDe(aviso)}
+          ${aviso.duvidas ? `<p class="aviso-duvidas">${limpo(aviso.duvidas)}</p>` : ""}
+        </div>
+      </details>
+
+      ${acoesDoAviso(aviso)}
+    </article>`;
+}
+
+export function montaAvisos() {
+  const secao = pega("#secao-avisos");
+  const caixa = pega("#avisos-lista");
+
+  // Vence sozinho: fica o dia inteiro do prazo e some no seguinte.
+  const ativos = AVISOS.filter((a) => a.prazo >= isoDeHoje()).sort((a, b) =>
+    a.prazo.localeCompare(b.prazo),
+  );
+
+  // O que sobrou de aviso vencido não volta a aparecer — não tem
+  // por que continuar ocupando o armazenamento do aparelho.
+  limpaAntigas(ativos.map((a) => a.id));
+
+  // Sem aviso válido a seção inteira sai, título e tudo. Um bloco
+  // vazio dizendo "nenhum aviso" só empurraria o resto para baixo.
+  secao.hidden = !ativos.length;
+  caixa.innerHTML = ativos
+    .map((a) => cartaoDeAviso(a, TURMA.aviso.janelaDias))
+    .join("");
+}
+
+// Marcar uma caixa não redesenha a seção: isso fecharia a gaveta e
+// tiraria o foco de onde o dedo está. Só o placar e a classe da
+// linha mudam — o valor já foi para o armazenamento.
+delega("change", "[data-confere]", (caixa) => {
+  marca(caixa.dataset.confere, caixa.dataset.item, caixa.checked);
+
+  caixa
+    .closest(".confere-item")
+    ?.classList.toggle("confere-item--feito", caixa.checked);
+
+  const bloco = caixa.closest(".confere-caixa");
+  const placar = bloco?.querySelector("[data-placar]");
+  if (!placar) return;
+
+  const todas = [...bloco.querySelectorAll("[data-confere]")];
+  placar.textContent = `${todas.filter((c) => c.checked).length} de ${todas.length}`;
+});
+
+// ============================================================
+//  3. Alerta — "não deixe passar"
+// ============================================================
 
 function cartaoDeAlerta(evento, posicao, janela) {
   const data = leData(evento.data);
@@ -136,7 +363,7 @@ export function montaAlerta() {
 }
 
 // ============================================================
-//  2. Atalhos
+//  4. Atalhos
 // ============================================================
 
 const SETA = `
@@ -164,7 +391,7 @@ export function montaAtalhos() {
 }
 
 // ============================================================
-//  3. Semana de aula
+//  5. Semana de aula
 // ============================================================
 
 const CAMERA = `
@@ -231,21 +458,8 @@ export function montaSemana() {
 }
 
 // ============================================================
-//  4. Monitorias
+//  6. Monitorias
 // ============================================================
-
-const COPIA = `
-  <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6"
-       stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-    <rect x="7.5" y="7.5" width="9" height="9" rx="2"/>
-    <path d="M12.5 4.5h-8a2 2 0 00-2 2v8"/>
-  </svg>`;
-
-const CHEVRON = `
-  <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8"
-       stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-    <path d="M5 8l5 5 5-5"/>
-  </svg>`;
 
 // Primeira e última inicial: "João Pedro S. Menezes" → "JM". Nome de
 // uma palavra só usa as duas primeiras letras, para o disco nunca
@@ -363,22 +577,25 @@ export function montaMonitorias() {
 
 // Um ouvinte só, no documento, para todos os botões de copiar — os
 // cartões são refeitos a cada render e reconectar ouvintes um a um
-// seria trabalho perdido.
+// seria trabalho perdido. Serve tanto ao e-mail do monitor quanto
+// ao nome de arquivo exigido num aviso; o rótulo diz qual é qual.
 delega("click", "[data-copia]", async (botao) => {
-  const email = botao.dataset.copia;
+  const texto = botao.dataset.copia;
+  const rotulo = botao.dataset.copiaRotulo || "E-mail";
   try {
-    await navigator.clipboard.writeText(email);
-    nota("E-mail copiado");
+    await navigator.clipboard.writeText(texto);
+    nota(`${rotulo} copiado`);
   } catch {
     // Sem permissão de área de transferência (acontece em file://):
-    // o endereço continua à vista e clicável ao lado do botão.
-    nota("Não deu para copiar — toque no endereço ao lado", "atencao");
+    // o texto continua à vista e selecionável ao lado do botão.
+    nota("Não deu para copiar — o texto está aí ao lado", "atencao");
   }
 });
 
 // ============================================================
 
 export function monta() {
+  montaAvisos();
   montaAlerta();
   montaAtalhos();
   montaSemana();
@@ -387,6 +604,7 @@ export function monta() {
 
 /** O que precisa ser refeito quando o dia vira. */
 export function refazPorData() {
+  montaAvisos();
   montaAlerta();
   montaSemana();
 }

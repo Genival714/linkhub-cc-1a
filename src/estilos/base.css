@@ -98,7 +98,12 @@ a { color: inherit; }
   --c-fp1:  #be185d;  --c-fp1-txt:  #ad1655;   /* FP1 Gestão de Pessoas      · carmim   */
   --c-p1:   #0e7490;  --c-p1-txt:   #0c6580;   /* Projeto 1                  · ciano    */
   --c-inst: #4b5563;  --c-inst-txt: #454d59;   /* Institucional              · grafite  */
-  --c-feriado: #b91c1c;
+
+  /* Duas matizes de sinalização, fora da paleta das matérias: uma
+     regra que zera a atividade não pode ser pintada com a cor de
+     uma disciplina, ou a cor deixaria de querer dizer "matéria". */
+  --c-feriado: #b91c1c;                        /* proibido / zera            · vermelho */
+  --c-atencao: #b45309;                        /* cuidado / não pontua       · âmbar    */
 }
 
 [data-tema="escuro"] {
@@ -128,6 +133,7 @@ a { color: inherit; }
   --c-p1:   #54c7e0;  --c-p1-txt:   #54c7e0;
   --c-inst: #a3adba;  --c-inst-txt: #a3adba;
   --c-feriado: #f08a8a;
+  --c-atencao: #f0b357;
 }
 
 
