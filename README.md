@@ -311,9 +311,3 @@ O tema tem três posições em vez de duas: claro, escuro e sistema. A terceira 
 que costuma faltar — quem deixa o computador trocar de tema sozinho ao anoitecer
 quer que o site acompanhe, e num interruptor de duas posições não existe como
 pedir isso.
-
----
-
-A primeira versão deste site partiu do Linkhub da Turma B (2026.1), de Thony
-Barreto, publicado sob licença MIT. Desta versão em diante, código, layout e
-identidade visual são próprios.
