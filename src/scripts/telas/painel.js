@@ -241,6 +241,13 @@ export function montaAvisos() {
   const secao = pega("#secao-avisos");
   const caixa = pega("#avisos-lista");
 
+  // O celular pode estar com um index.html antigo em cache e já ter
+  // recebido este módulo novo: o service worker atualiza os arquivos
+  // um a um, então HTML e JavaScript podem ficar fora de passo por uma
+  // abertura. Sem esta saída, a seção que ainda não existe no HTML
+  // derruba o Painel inteiro e, junto com ele, a navegação do site.
+  if (!secao || !caixa) return;
+
   // Vence sozinho: fica o dia inteiro do prazo e some no seguinte.
   const ativos = AVISOS.filter((a) => a.prazo >= isoDeHoje()).sort((a, b) =>
     a.prazo.localeCompare(b.prazo),

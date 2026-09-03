@@ -3,11 +3,16 @@
 
    Faz o site abrir offline depois da primeira visita.
 
-   Três estratégias, uma por tipo de recurso:
+   Quatro estratégias, uma por tipo de recurso:
 
-   casca      HTML, CSS e os módulos: responde do cache na hora e
-              busca a versão nova em segundo plano. Abre instantâneo
-              e uma correção de data chega na visita seguinte.
+   documento  o index.html: rede primeiro, cache se estiver offline.
+              É o HTML que decide quais elementos existem, e os
+              módulos contam com eles. Servir um index.html velho
+              junto de um painel.js novo derruba a página inteira —
+              foi o que aconteceu ao publicar a seção de avisos.
+   casca      CSS e os módulos: responde do cache na hora e busca a
+              versão nova em segundo plano. Abre instantâneo e uma
+              correção de data chega na visita seguinte.
    biblioteca pdf.js e o gerador de QR: cache primeiro. São grandes,
               versionados na pasta e praticamente nunca mudam.
    documentos PDFs: cache primeiro, guardados à parte para não
@@ -17,7 +22,7 @@
       É isso que descarta o cache antigo dos celulares da turma.
 ================================================================ */
 
-const VERSAO = "v3";
+const VERSAO = "v4";
 
 const CACHE_CASCA = `linkhub-casca-${VERSAO}`;
 const CACHE_LIB = "linkhub-biblioteca";   // sem versão: os arquivos já são versionados
@@ -117,6 +122,27 @@ async function doCacheOuDaRede(requisicao, nomeDoCache) {
   return resposta;
 }
 
+/**
+ * Rede primeiro, cache como rede de segurança. Só para o documento.
+ *
+ * Uma ida à rede por abertura custa pouco e é o que mantém o HTML e
+ * os módulos em passo: sem isso o navegador pode juntar um index.html
+ * de uma versão com um script de outra, e a página morre inteira.
+ */
+async function daRedeOuDoCache(requisicao) {
+  try {
+    const resposta = await fetch(requisicao);
+    if (resposta.ok) {
+      const copia = resposta.clone();
+      caches.open(CACHE_CASCA).then((cache) => cache.put(requisicao, copia));
+    }
+    return resposta;
+  } catch {
+    // Offline: o que estiver guardado é o que há.
+    return (await caches.match(requisicao)) || caches.match("./index.html");
+  }
+}
+
 /** Responde do cache e atualiza em segundo plano. */
 async function doCacheEnquantoAtualiza(requisicao) {
   const guardado = await caches.match(requisicao);
@@ -143,7 +169,10 @@ self.addEventListener("fetch", (evento) => {
   // Fontes do Google e qualquer outro domínio vão direto para a rede.
   if (endereco.origin !== self.location.origin) return;
 
-  if (ehDocumento(endereco.pathname)) {
+  // O documento vem da rede sempre que houver rede.
+  if (requisicao.mode === "navigate") {
+    evento.respondWith(daRedeOuDoCache(requisicao));
+  } else if (ehDocumento(endereco.pathname)) {
     evento.respondWith(doCacheOuDaRede(requisicao, CACHE_DOCS));
   } else if (ehBiblioteca(endereco.pathname)) {
     evento.respondWith(doCacheOuDaRede(requisicao, CACHE_LIB));

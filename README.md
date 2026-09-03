@@ -336,6 +336,23 @@ versão, quem já abriu o site continua vendo a versão anterior. As bibliotecas
 os PDFs ficam num cache separado, sem versão: eles não mudam, e baixá-los de novo
 a cada correção de data gastaria os dados de quem está no 4G.
 
+### Por que o index.html vem da rede
+
+Os arquivos da casca são atualizados um a um, cada um no seu tempo. Isso
+significa que um celular pode receber o `painel.js` novo enquanto ainda serve o
+`index.html` velho do cache — e aí o script procura uma seção que aquele HTML
+ainda não tem.
+
+Isso não é um detalhe: como o site inteiro é desenhado por JavaScript, uma única
+exceção dentro de `painel.monta()` interrompe a partida antes de ligar a
+navegação. O resultado é a casca na tela e mais nada funcionando. Aconteceu de
+verdade ao publicar a seção de avisos.
+
+Por isso o documento é o único recurso que vai à rede primeiro, caindo pro cache
+só quando não há conexão. Custa uma ida à rede por abertura e mantém o HTML e os
+módulos na mesma versão. Como reforço, quem desenha uma seção nova sai calado se
+o elemento não estiver no HTML, em vez de derrubar o resto da página.
+
 ## Acessibilidade
 
 Todo texto colorido passa em WCAG AA nos dois temas (medido: as sete matérias
