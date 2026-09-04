@@ -2,7 +2,7 @@
 //  Núcleo · Atualização automática
 //
 //  Faz o site trocar de versão sozinho. Ninguém da turma deveria
-//  precisar recarregar a página na mão para ver um aviso novo.
+//  precisar apertar F5 para ver um aviso novo.
 //
 //  Em três tempos:
 //
@@ -15,9 +15,13 @@
 //  3. A troca vem junto com um recarregamento, então a página nova
 //     nunca esbarra em pedaços da versão anterior.
 //
-//  O app instalado é o caso que mais precisa disto: ele passa dias
-//  em segundo plano sem navegar para lugar nenhum e, sem uma
-//  conferência explícita, nem chega a olhar o sw.js.
+//  O ponto delicado é o TEMPO. Quando esta página chega, a
+//  instalação da versão nova pode estar em qualquer ponto: já
+//  terminada, em curso, ou nem começada. Escutar só o `updatefound`
+//  parece bastar e não basta — o navegador dispara esse evento
+//  assim que a página carrega, muitas vezes antes de `register()`
+//  devolver a promessa, e aí não há ninguém escutando ainda. Era
+//  exatamente esse o furo pelo qual a atualização passava batido.
 // ============================================================
 
 import { notaFixa } from "./nota.js";
@@ -32,7 +36,16 @@ const JANELA_CALADA = 10_000;
 // cada ida e volta.
 const ESPERA_ENTRE_CONFERIDAS = 60_000;
 
+// Uma aba esquecida aberta no computador não perde nem recupera o
+// foco o dia inteiro. Sem isto ela ficaria parada na versão da manhã.
+const INTERVALO_DE_RONDA = 15 * 60 * 1000;
+
 const abertura = Date.now();
+
+// Um mesmo trabalhador chega por mais de uma porta; tratar duas
+// vezes mostraria dois avisos na tela.
+const tratados = new WeakSet();
+
 let ultimaConferida = 0;
 let recarregando = false;
 let avisoNaTela = false;
@@ -51,50 +64,63 @@ function podeTrocarCalado() {
   return Date.now() - abertura < JANELA_CALADA;
 }
 
-function assume(registro) {
-  registro.waiting?.postMessage({ tipo: "assumir" });
+// Falar direto com o trabalhador que acabou de instalar, e não com
+// `registro.waiting`: esse campo demora um instante para apontar
+// para ele, e a mensagem cairia no vazio sem erro nenhum.
+function assume(registro, trabalhador) {
+  (trabalhador || registro.waiting)?.postMessage({ tipo: "assumir" });
 }
 
-function chegouVersaoNova(registro) {
+function chegouVersaoNova(registro, trabalhador) {
   if (podeTrocarCalado()) {
-    assume(registro);
+    assume(registro, trabalhador);
     return;
   }
 
-  // Uma só: a versão nova continua esperando, e insistir a cada
+  // Um aviso só: a versão nova continua esperando, e insistir a cada
   // conferência viraria perseguição.
   if (avisoNaTela) return;
   avisoNaTela = true;
 
   notaFixa("Há uma versão nova do site.", {
     rotulo: "Atualizar",
-    acao: () => assume(registro),
+    acao: () => assume(registro, trabalhador),
   });
+}
+
+/** Acompanha um trabalhador até ele terminar de instalar. */
+function vigiaTrabalhador(registro, trabalhador) {
+  if (!trabalhador) return;
+
+  const confere = () => {
+    if (trabalhador.state !== "installed") return;
+    // Sem controlador é a primeira visita: não há versão anterior
+    // para trocar, a pessoa já está vendo esta.
+    if (!navigator.serviceWorker.controller) return;
+    if (tratados.has(trabalhador)) return;
+    tratados.add(trabalhador);
+    chegouVersaoNova(registro, trabalhador);
+  };
+
+  confere();                                     // pode já estar pronto
+  trabalhador.addEventListener("statechange", confere);
 }
 
 function vigia(registro) {
-  // Já havia uma esperando quando esta página abriu — acontece com
-  // duas abas do site abertas, ou quando o aviso anterior foi
-  // ignorado.
-  if (registro.waiting && navigator.serviceWorker.controller) {
-    chegouVersaoNova(registro);
-  }
-
-  registro.addEventListener("updatefound", () => {
-    const nova = registro.installing;
-    if (!nova) return;
-
-    nova.addEventListener("statechange", () => {
-      // Sem controlador é a primeira visita: não há versão anterior
-      // para trocar, a pessoa já está vendo esta.
-      if (nova.state === "installed" && navigator.serviceWorker.controller) {
-        chegouVersaoNova(registro);
-      }
-    });
-  });
+  // As três portas de entrada, porque a instalação pode estar em
+  // qualquer ponto quando esta página chega:
+  //   waiting     terminou antes de a gente abrir
+  //   installing  está em curso — e o updatefound provavelmente já
+  //               disparou, sem ninguém escutando
+  //   updatefound ainda vai começar
+  vigiaTrabalhador(registro, registro.waiting);
+  vigiaTrabalhador(registro, registro.installing);
+  registro.addEventListener("updatefound", () =>
+    vigiaTrabalhador(registro, registro.installing),
+  );
 }
 
-function confere(registro) {
+function confereAgora(registro) {
   const agora = Date.now();
   if (agora - ultimaConferida < ESPERA_ENTRE_CONFERIDAS) return;
   ultimaConferida = agora;
@@ -131,7 +157,10 @@ export async function instala() {
   // Onde o app instalado descobre que saiu versão nova: ele volta do
   // segundo plano sem navegar, então nada o faria olhar o sw.js.
   document.addEventListener("visibilitychange", () => {
-    if (!document.hidden) confere(registro);
+    if (!document.hidden) confereAgora(registro);
   });
-  window.addEventListener("focus", () => confere(registro));
+  window.addEventListener("focus", () => confereAgora(registro));
+
+  // A ronda cobre a aba que fica aberta e nunca troca de foco.
+  setInterval(() => confereAgora(registro), INTERVALO_DE_RONDA);
 }

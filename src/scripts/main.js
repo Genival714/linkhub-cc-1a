@@ -260,4 +260,10 @@ partida();
 //  turma presa na versão da primeira visita.
 // ============================================================
 
-window.addEventListener("load", () => atualizacao.instala());
+// Se o load já passou — módulo avaliado tarde, volta do bfcache — o
+// ouvinte nunca dispararia e o site ficaria sem se atualizar.
+if (document.readyState === "complete") {
+  atualizacao.instala();
+} else {
+  window.addEventListener("load", () => atualizacao.instala(), { once: true });
+}

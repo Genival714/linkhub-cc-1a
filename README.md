@@ -379,9 +379,21 @@ Agora funciona em três tempos, em `src/scripts/nucleo/atualizacao.js`:
 3. **A troca vem junto com um recarregamento**, então a página nova nunca esbarra
    em pedaços da versão anterior.
 
+O ponto delicado é o **tempo**. Quando a página chega, a instalação da versão
+nova pode estar em qualquer ponto: já terminada, em curso, ou nem começada.
+Escutar só o `updatefound` parece bastar e não basta — o navegador dispara esse
+evento assim que a página carrega, muitas vezes antes de o `register()` devolver
+a promessa, e aí ainda não há ninguém escutando. Por isso são três portas de
+entrada: `registration.waiting`, `registration.installing` e o `updatefound`.
+
+Também é preciso falar direto com o trabalhador que acabou de instalar, e não com
+`registration.waiting`: esse campo demora um instante para apontar para ele, e a
+mensagem cairia no vazio sem erro nenhum.
+
 A conferência acontece toda vez que o app volta para a frente
-(`visibilitychange` e `focus`), no máximo uma vez por minuto. É o mesmo gatilho
-que a virada da meia-noite já usava.
+(`visibilitychange` e `focus`), no máximo uma vez por minuto — o mesmo gatilho
+que a virada da meia-noite já usava — e mais uma ronda a cada 15 minutos, para a
+aba que fica aberta o dia inteiro no computador e nunca troca de foco.
 
 Um detalhe que custou caro descobrir: a regra de movimento reduzido no
 `base.css` forçava `nota-vida-parada` em toda `.nota`, e essa animação termina em
