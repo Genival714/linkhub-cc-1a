@@ -10,6 +10,7 @@ import { recupera, aoMudar } from "./nucleo/estado.js";
 import { nota } from "./nucleo/nota.js";
 import * as janela from "./nucleo/janela.js";
 import * as tema from "./nucleo/tema.js";
+import * as atualizacao from "./nucleo/atualizacao.js";
 import * as instalar from "./nucleo/instalar.js";
 import { compartilha, enderecoDoSite } from "./nucleo/compartilhar.js";
 import * as qr from "./nucleo/qr.js";
@@ -252,13 +253,11 @@ tema.instala();
 partida();
 
 // ============================================================
-//  Service worker — abre offline depois da primeira visita
+//  Service worker — abre offline e se atualiza sozinho
+//
+//  O registro mora em nucleo/atualizacao.js junto com a vigilância
+//  da versão nova: registrar sem escutar a atualização deixava a
+//  turma presa na versão da primeira visita.
 // ============================================================
 
-if ("serviceWorker" in navigator && location.protocol !== "file:") {
-  window.addEventListener("load", () => {
-    navigator.serviceWorker.register("sw.js").catch(() => {
-      /* sem HTTPS ou sem suporte — o site funciona igual, só não offline */
-    });
-  });
-}
+window.addEventListener("load", () => atualizacao.instala());

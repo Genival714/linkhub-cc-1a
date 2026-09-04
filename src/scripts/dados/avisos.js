@@ -25,6 +25,12 @@
 //    arquivo      nome exigido do arquivo, opcional. Vira um bloco
 //                 com botão de copiar
 //    arquivoNota  a pegadinha do nome, opcional
+//    documento    { caminho, titulo, simbolo, resumo, rotulo } — o
+//                 arquivo da atividade, opcional. Abre no leitor do
+//                 próprio site, com botão de baixar dentro. Fica só
+//                 aqui e some junto com o aviso; de propósito não
+//                 entra na lista de `arquivos` do turma.js, que é
+//                 permanente
 //    conferir     [{ id, texto }] — a checklist que o aluno marca
 //                 antes de enviar. O `id` também é guardado, então
 //                 vale a mesma regra de estabilidade
@@ -53,6 +59,14 @@ export const AVISOS = [
 
     arquivo: "Lista 1_Nome Completo",
     arquivoNota: "É “Lista 1”, e não “Lista 01”. Troque “Nome Completo” pelo seu nome.",
+
+    documento: {
+      caminho: "assets/pdfs/lista-01-sistemas-digitais.pdf",
+      titulo: "Lista 01 · Sistemas Digitais",
+      simbolo: "📄",
+      resumo: "1 página · 50 KB · leia aqui dentro ou baixe pelo botão da leitura.",
+      rotulo: "Ver a lista",
+    },
 
     conferir: [
       { id: "pdf",     texto: "É um PDF ÚNICO — um arquivo só, com todas as questões" },

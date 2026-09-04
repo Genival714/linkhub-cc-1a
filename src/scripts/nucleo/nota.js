@@ -34,12 +34,53 @@ function caixaDeNotas() {
 export function nota(texto, tom = "ok") {
   const alvo = caixaDeNotas();
 
-  // Mais que três empilhadas viram parede: a mais antiga sai.
-  while (alvo.childElementCount >= LIMITE) alvo.firstElementChild.remove();
+  // Mais que três empilhadas viram parede: a mais antiga sai. As
+  // fixas ficam — elas esperam uma decisão, não o relógio.
+  while (alvo.childElementCount >= LIMITE) {
+    const velha = alvo.querySelector(".nota:not(.nota--fixa)");
+    if (!velha) break;
+    velha.remove();
+  }
 
   const item = document.createElement("div");
   item.className = `nota nota--${tom}`;
   item.textContent = texto;
   item.addEventListener("animationend", () => item.remove(), { once: true });
   alvo.append(item);
+}
+
+/**
+ * Nota que fica até a pessoa resolver, com um botão de ação.
+ *
+ * Para o que não pode sumir sozinho — o convite a atualizar o site,
+ * que se apagasse em três segundos não serviria de nada.
+ *
+ * @param {string} texto
+ * @param {{rotulo?: string, acao?: () => void}} botao
+ * @returns {() => void} tira a nota da tela
+ */
+export function notaFixa(texto, { rotulo, acao } = {}) {
+  const alvo = caixaDeNotas();
+
+  const item = document.createElement("div");
+  item.className = "nota nota--fixa";
+
+  const frase = document.createElement("span");
+  frase.textContent = texto;
+  item.append(frase);
+
+  if (rotulo) {
+    const botao = document.createElement("button");
+    botao.type = "button";
+    botao.className = "nota-botao";
+    botao.textContent = rotulo;
+    botao.addEventListener("click", () => {
+      item.remove();
+      acao?.();
+    });
+    item.append(botao);
+  }
+
+  alvo.append(item);
+  return () => item.remove();
 }

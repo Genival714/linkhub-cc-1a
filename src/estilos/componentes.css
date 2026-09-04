@@ -344,6 +344,21 @@ ul.aviso-regras {
   gap: 0.35rem;
 }
 
+/* O enunciado é a ação principal do cartão — sem ele não dá para
+   fazer a atividade. Preenchido, ganha a frente dos outros botões.
+   O texto usa a cor do papel: no tema claro sai branco sobre a matiz
+   cheia, no escuro sai escuro sobre a matiz clara. */
+.aviso-botoes .ficha-acao--forte {
+  border-color: var(--c);
+  background: var(--c);
+  color: var(--papel-alto);
+}
+
+.aviso-botoes .ficha-acao--forte:hover {
+  background: var(--c-txt);
+  border-color: var(--c-txt);
+}
+
 .aviso-nota {
   margin-block-start: 0.5rem;
   color: var(--tinta-tenue);

@@ -173,6 +173,20 @@ function acoesDoAviso(aviso) {
   const materia = MATERIA_POR_ID[aviso.disc];
   const botoes = [];
 
+  // O enunciado vem primeiro e em destaque: é o que a pessoa precisa
+  // ter em mãos antes de qualquer outra coisa. Abre no leitor do
+  // próprio site, que já traz baixar e abrir em nova aba lá dentro.
+  const doc = aviso.documento;
+  if (doc?.caminho) {
+    botoes.push(
+      `<button class="ficha-acao ficha-acao--forte" data-arquivo="${limpo(doc.caminho)}"
+         data-arquivo-titulo="${limpo(doc.titulo || aviso.titulo)}"
+         data-arquivo-simbolo="${limpo(doc.simbolo || "📄")}"
+         data-arquivo-resumo="${limpo(doc.resumo || "")}"
+        >${limpo(doc.rotulo || "Abrir o documento")}</button>`,
+    );
+  }
+
   if (materia?.classroom) {
     botoes.push(
       `<a class="ficha-acao" href="${limpo(materia.classroom)}" target="_blank" rel="noopener">Abrir no Classroom</a>`,

@@ -20,9 +20,15 @@
 
    ►► Ao publicar uma alteração, suba o número da VERSAO.
       É isso que descarta o cache antigo dos celulares da turma.
+
+   A versão nova NÃO assume sozinha. Ela instala, fica esperando, e
+   só toma o lugar quando a página manda — e a página recarrega
+   junto. Sem isso, a troca acontece por baixo de uma página já
+   rodando, que foi como um index.html velho um dia encontrou um
+   painel.js novo e derrubou o site inteiro.
 ================================================================ */
 
-const VERSAO = "v4";
+const VERSAO = "v6";
 
 const CACHE_CASCA = `linkhub-casca-${VERSAO}`;
 const CACHE_LIB = "linkhub-biblioteca";   // sem versão: os arquivos já são versionados
@@ -52,6 +58,7 @@ const CASCA = [
   "./src/scripts/nucleo/estado.js",
   "./src/scripts/nucleo/eventos.js",
   "./src/scripts/nucleo/conferencia.js",
+  "./src/scripts/nucleo/atualizacao.js",
   "./src/scripts/nucleo/paleta.js",
   "./src/scripts/nucleo/pecas.js",
   "./src/scripts/nucleo/nota.js",
@@ -86,9 +93,16 @@ self.addEventListener("install", (evento) => {
       // addAll desiste de tudo se um único arquivo faltar. Um a um,
       // um recurso ausente não impede a instalação — o site ainda
       // abre offline, só sem aquele pedaço.
-      .then((cache) => Promise.allSettled(CASCA.map((alvo) => cache.add(alvo))))
-      .then(() => self.skipWaiting()),
+      .then((cache) => Promise.allSettled(CASCA.map((alvo) => cache.add(alvo)))),
   );
+  // Sem skipWaiting aqui de propósito: quem decide a hora de trocar
+  // é a página, que sabe se alguém está no meio de uma leitura.
+});
+
+// O único jeito de esta versão assumir antes de todas as abas
+// fecharem. Quem manda é nucleo/atualizacao.js.
+self.addEventListener("message", (evento) => {
+  if (evento.data?.tipo === "assumir") self.skipWaiting();
 });
 
 self.addEventListener("activate", (evento) => {

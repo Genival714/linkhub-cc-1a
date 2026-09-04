@@ -383,6 +383,39 @@
   color: #fff;
 }
 
+/* A nota fixa espera uma decisão, então não tem a animação que se
+   remove sozinha. E precisa receber toque: a caixa das notas é
+   atravessável de propósito, para não bloquear o que está atrás. */
+.nota--fixa {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  max-inline-size: 34ch;
+  padding-inline-end: 0.4rem;
+  animation: nota-entra 0.3s cubic-bezier(0.2, 0.8, 0.3, 1) both;
+  pointer-events: auto;
+  text-align: start;
+}
+
+.nota-botao {
+  flex-shrink: 0;
+  padding: 0.3rem 0.75rem;
+  border-radius: 999px;
+  background: var(--realce-texto);
+  color: var(--realce);
+  font-family: inherit;
+  font-size: 0.74rem;
+  font-weight: 700;
+  transition: opacity 0.16s ease;
+}
+
+.nota-botao:hover { opacity: 0.82; }
+
+@keyframes nota-entra {
+  from { opacity: 0; transform: translateY(10px) scale(0.96); }
+  to   { opacity: 1; transform: none; }
+}
+
 @keyframes nota-vida {
   0%        { opacity: 0; transform: translateY(10px) scale(0.96); }
   8%, 88%   { opacity: 1; transform: none; }

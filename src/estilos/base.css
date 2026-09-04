@@ -228,7 +228,10 @@ h3 { font-size: 1rem; }
     transition-duration: 0.01ms !important;
   }
 
-  .nota { animation-name: nota-vida-parada !important; }
+  /* Só as passageiras. A fixa acabaria em opacity 0 e sumiria da
+     tela sem ninguém ter decidido nada. */
+  .nota:not(.nota--fixa) { animation-name: nota-vida-parada !important; }
+  .nota--fixa { animation: none !important; }
 }
 
 

@@ -32,6 +32,13 @@ Cadastra-se em `src/scripts/dados/avisos.js`, e o cartão monta sozinho: selo e 
 da matéria, contagem regressiva, o link do Classroom (lido de `materias.js`, não
 duplicado aqui) e as regras.
 
+O campo `documento` anexa o enunciado da atividade. Ele vira o botão em destaque
+do cartão e abre no leitor do próprio site, com baixar e abrir em nova aba lá
+dentro. De propósito ele **não** entra na lista `arquivos` do `turma.js`: aquela
+tela é permanente, e o enunciado de uma lista já entregue não tem por que
+continuar ali. Ficando só no aviso, o link some junto com ele quando o prazo
+passa — o PDF continua no repositório, apenas deixa de ser oferecido.
+
 As regras vão em três níveis, porque as consequências são três e misturá-las
 esconde a que mais dói:
 
@@ -252,6 +259,7 @@ linkhub-cc-1a/
         │   ├── estado.js      Filtros, modo e persistência
         │   ├── eventos.js     Catálogo unificado e tipos
         │   ├── conferencia.js Checklist dos avisos, guardada no aparelho
+        │   ├── atualizacao.js Troca de versão sem recarregar na mão
         │   ├── paleta.js      Cores por matéria
         │   ├── pecas.js       Selo, etiqueta e linha de evento
         │   ├── nota.js        Confirmações passageiras
@@ -352,6 +360,38 @@ Por isso o documento é o único recurso que vai à rede primeiro, caindo pro ca
 só quando não há conexão. Custa uma ida à rede por abertura e mantém o HTML e os
 módulos na mesma versão. Como reforço, quem desenha uma seção nova sai calado se
 o elemento não estiver no HTML, em vez de derrubar o resto da página.
+
+## O site se atualiza sozinho
+
+Ninguém da turma deveria precisar recarregar a página na mão para ver um aviso
+novo — e no app instalado isso era pior ainda: ele passa dias em segundo plano
+sem navegar para lugar nenhum, então nem chegava a olhar o `sw.js`.
+
+Agora funciona em três tempos, em `src/scripts/nucleo/atualizacao.js`:
+
+1. **A versão nova instala e fica esperando.** Ela não assume no meio da sessão.
+   O `skipWaiting()` saiu da instalação de propósito: era ele que trocava os
+   arquivos por baixo de uma página já rodando.
+2. **A página escolhe a hora.** Se acabou de abrir (10 segundos), ou se está fora
+   da vista, ela troca calada e ninguém percebe. Se a pessoa já está lendo —
+   principalmente com um PDF aberto — aparece um aviso discreto com um botão
+   "Atualizar", e nada se mexe até ela tocar.
+3. **A troca vem junto com um recarregamento**, então a página nova nunca esbarra
+   em pedaços da versão anterior.
+
+A conferência acontece toda vez que o app volta para a frente
+(`visibilitychange` e `focus`), no máximo uma vez por minuto. É o mesmo gatilho
+que a virada da meia-noite já usava.
+
+Um detalhe que custou caro descobrir: a regra de movimento reduzido no
+`base.css` forçava `nota-vida-parada` em toda `.nota`, e essa animação termina em
+`opacity: 0`. O aviso de atualização, que precisa ficar, sumiria sozinho para
+quem pediu menos movimento. Por isso ele está fora dessa regra.
+
+**Na primeira publicação depois desta mudança**, feche o app (ou todas as abas)
+uma vez. Aquela abertura ainda é servida pela versão antiga, que não sabe pedir a
+troca; a versão nova assume quando o último cliente fecha. Da próxima em diante é
+automático.
 
 ## Acessibilidade
 
