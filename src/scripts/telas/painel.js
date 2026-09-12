@@ -261,10 +261,13 @@ function acoesDoAviso(aviso) {
     );
   }
 
+  // Um link de apoio pode ser a própria entrega — um formulário, por
+  // exemplo. Com `forte` ele ganha o destaque do enunciado e vai
+  // para a frente da fila, antes do Classroom.
   (aviso.ajuda || []).forEach((link) => {
-    botoes.push(
-      `<a class="ficha-acao" href="${limpo(link.endereco)}" target="_blank" rel="noopener">${limpo(link.titulo)}</a>`,
-    );
+    const botao = `<a class="${classes("ficha-acao", link.forte && "ficha-acao--forte")}" href="${limpo(link.endereco)}" target="_blank" rel="noopener">${limpo(link.titulo)}</a>`;
+    if (link.forte) botoes.unshift(botao);
+    else botoes.push(botao);
   });
 
   if (!botoes.length) return "";
@@ -272,7 +275,7 @@ function acoesDoAviso(aviso) {
   return `
     <footer class="aviso-acoes">
       <div class="aviso-botoes">${botoes.join("")}</div>
-      ${materia?.classroom ? '<p class="aviso-nota">O Classroom só abre na conta <strong>@cesar.school</strong>.</p>' : ""}
+      ${materia?.classroom ? `<p class="aviso-nota">${aviso.ajuda?.some((l) => l.forte) ? "O formulário e o Classroom só abrem" : "O Classroom só abre"} na conta <strong>@cesar.school</strong>.</p>` : ""}
       ${aviso.dica ? `<p class="aviso-nota">${limpo(aviso.dica)}</p>` : ""}
     </footer>`;
 }

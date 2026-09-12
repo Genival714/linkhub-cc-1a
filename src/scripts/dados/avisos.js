@@ -55,7 +55,9 @@
 //                 própria, fechada, antes da gaveta de regras. Cada
 //                 item pode ter uma `nota` (a leitura, por exemplo) e
 //                 um `documento` próprio, que vira um botão pequeno
-//    ajuda        [{ titulo, endereco }] — links de apoio
+//    ajuda        [{ titulo, endereco, forte }] — links de apoio.
+//                 `forte: true` põe o link em destaque, como o
+//                 enunciado — para o formulário de entrega, por exemplo
 //    dica         uma linha solta de apoio, opcional
 //    duvidas      onde tirar dúvida, opcional
 //
@@ -169,7 +171,7 @@ export const AVISOS = [
     resumo: "A aula de 18/09 depende de vocês chegarem com a leitura feita. Cada grupo de Projetos lê um trecho do texto de Silvio Meira (7 a 9 min), cada pessoa envia um registro curto até 17/09, e na aula os grupos discutem em salas separadas e apresentam no plenário.",
 
     etapas: [
-      { data: "2026-09-17", hora: "23:59", titulo: "Registro individual de leitura", texto: "No Google Forms anexado na atividade do Classroom. De 5 a 8 linhas: uma afirmação do seu bloco que você considera bem sustentada e uma que considera frágil, com o motivo de cada. É individual, não é do grupo." },
+      { data: "2026-09-17", hora: "23:59", titulo: "Registro individual de leitura — vale como presença", texto: "Cada integrante responde o formulário (botão “Responder o registro” abaixo), com a conta @cesar.school. De 5 a 8 linhas: uma afirmação do seu bloco que você considera bem sustentada e uma que considera frágil, com o motivo de cada. É individual, não é do grupo." },
       { data: "2026-09-18", titulo: "Aula no Zoom", texto: "Abertura curta → 35 min de discussão na sala do seu bloco → plenário, 2 min por bloco → atividade individual no Wayground (12 questões, 3 abertas)." },
     ],
 
@@ -192,7 +194,7 @@ export const AVISOS = [
     conferir: [
       { id: "secao1",   texto: "Li a seção 1 do texto (a introdução)" },
       { id: "bloco",    texto: "Li a seção do meu bloco — e sei explicar para quem não leu" },
-      { id: "registro", texto: "Enviei o registro individual no Forms até 17/09, 23h59" },
+      { id: "registro", texto: "Enviei o registro individual no formulário até 17/09, 23h59 — logado na conta @cesar.school" },
       { id: "roteiro",  texto: "Abri o roteiro do meu bloco e li as perguntas da discussão" },
       { id: "papeis",   texto: "Já pensei em quem pode ser relator, cronometrista e cético no grupo" },
     ],
@@ -200,7 +202,8 @@ export const AVISOS = [
     regras: [
       { nivel: "faca", texto: "A leitura não é opcional: cada grupo lê uma parte diferente, e no plenário vocês explicam a sua parte a quem não a leu. Se um grupo chega sem ler, ninguém mais tem acesso àquele pedaço do argumento." },
       { nivel: "faca", texto: "Leia só a seção 1 e a seção do seu bloco — de 6 a 9 minutos. O texto inteiro leva uns 43 minutos e não é para ler tudo." },
-      { nivel: "faca", texto: "Registro individual até 17/09, 23h59, no Google Forms anexado na atividade do Classroom: 5 a 8 linhas, uma afirmação bem sustentada e uma frágil, cada uma com o porquê." },
+      { nivel: "faca", texto: "Registro individual até 17/09, 23h59, no formulário: 5 a 8 linhas, uma afirmação bem sustentada e uma frágil, cada uma com o porquê. Não é resumo, é julgamento — separar o que o autor sustenta com evidência do que ele afirma com convicção. Discordar é bem-vindo, desde que você diga o que estaria faltando." },
+      { nivel: "faca", texto: "O formulário só aceita resposta da conta @cesar.school, e cada integrante do grupo responde o seu. O registro vale como presença na atividade." },
       { nivel: "faca", texto: "Na sala do Zoom (35 min): nos 2 primeiros minutos definam os papéis; 15 min nas três perguntas comuns a todos os blocos; 15 min na pergunta do seu bloco; 5 min para o relator fechar o registro no documento colaborativo." },
       { nivel: "faca", texto: "Papéis: relator (registra as respostas e fala no plenário), cronometrista (garante a virada aos 15 min e o fechamento aos 30) e cético (a cada conclusão do grupo pergunta “como sabemos disso?”)." },
       { nivel: "faca", texto: "No plenário são 2 minutos por bloco, cronometrados, e só duas coisas: uma prática profissional que o texto derruba, e com o que substituir. O grupo irmão do mesmo bloco tem direito a uma frase de divergência pelo chat — divergir é esperado." },
@@ -208,6 +211,7 @@ export const AVISOS = [
     ],
 
     ajuda: [
+      { titulo: "Responder o registro de leitura", endereco: "https://docs.google.com/forms/d/e/1FAIpQLSfXewiPiUz6XSUNzZcQIPZp_ouJ9sMfeHwHjikpr9KBsI3CKg/viewform", forte: true },
       { titulo: "Ler o texto de Silvio Meira", endereco: "https://silvio.meira.com/o-que-voce-faz-de-melhor-e-o-que-tera-de-desaprender-primeiro/" },
     ],
     dica: "Pergunta para levar na leitura: e se a coisa que vocês estão aprendendo a fazer melhor for exatamente a primeira que terão de largar?",
