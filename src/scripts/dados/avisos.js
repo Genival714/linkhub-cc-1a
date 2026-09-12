@@ -49,6 +49,49 @@
 export const AVISOS = [
 
   {
+    id: "sd-lista-02",
+    disc: "sd",
+    tipo: "entrega",
+    titulo: "Lista 02 de Sistemas Digitais",
+    prazo: "2026-09-16",
+    hora: "23:59",
+    resumo: "Um PDF único, resolvido à mão, entregue no Classroom. Cobre ASCII, cores em hexadecimal/RGB, números negativos em binário e subtração.",
+
+    arquivo: "Lista 2_Nome Completo",
+    arquivoNota: "É “Lista 2”, e não “Lista 02”. Troque “Nome Completo” pelo seu nome.",
+
+    documento: {
+      caminho: "assets/pdfs/lista-02-sistemas-digitais.pdf",
+      titulo: "Lista 02 · Sistemas Digitais",
+      simbolo: "📄",
+      resumo: "1 página · 44 KB · leia aqui dentro ou baixe pelo botão da leitura.",
+      rotulo: "Ver a lista",
+    },
+
+    conferir: [
+      { id: "pdf",     texto: "É um PDF ÚNICO — um arquivo só, com todas as questões" },
+      { id: "nome",    texto: "O arquivo está nomeado no formato exigido" },
+      { id: "calculo", texto: "Toda questão tem o cálculo junto" },
+      { id: "mao",     texto: "Nada digitado — tudo resolvido à mão" },
+    ],
+
+    regras: [
+      { nivel: "faca",  texto: "Envie um PDF ÚNICO, com todas as questões no mesmo arquivo." },
+      { nivel: "faca",  texto: "Resolva no tablet e salve em PDF, ou faça no caderno/folha, tire foto e converta para PDF." },
+      { nivel: "zera",  texto: "Arquivo com outro nome ou em outro formato: a lista é zerada." },
+      { nivel: "zera",  texto: "Envio depois das 23:59 do dia 16/09: não é aceito." },
+      { nivel: "perde", texto: "Questão sem o respectivo cálculo: não pontua." },
+      { nivel: "perde", texto: "Questão digitada: não pontua." },
+    ],
+
+    ajuda: [
+      { titulo: "iLovePDF · JPG para PDF", endereco: "https://www.ilovepdf.com/jpg_to_pdf" },
+    ],
+    dica: "Serve qualquer conversor: procure no Google por “jpg to pdf converter”.",
+    duvidas: "Dúvidas sobre a correção: responda ao comentário de feedback da sua monitora ou do seu monitor, no próprio Classroom.",
+  },
+
+  {
     id: "sd-lista-01",
     disc: "sd",
     tipo: "entrega",

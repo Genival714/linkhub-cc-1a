@@ -116,6 +116,7 @@ export const CRONOGRAMA = [
   { data: "2026-09-09", disc: "sd", aula: null, tipo: "entrega", titulo: "Lista 01 — entrega até 23:59", obs: "Vale 10% da AV1 (uma das 4 listas). PDF ÚNICO, nomeado \"Lista 1_Nome Completo\". As regras completas estão no aviso do Painel." },
   { data: "2026-09-14", disc: "sd", aula: 12, tipo: "aula", titulo: "Circuitos combinacionais (representação)" },
   { data: "2026-09-16", disc: "sd", aula: 13, tipo: "aula", titulo: "Aula Quântica" },
+  { data: "2026-09-16", disc: "sd", aula: null, tipo: "entrega", titulo: "Lista 02 — entrega até 23:59", obs: "Vale 10% da AV1 (uma das 4 listas). PDF ÚNICO, nomeado \"Lista 2_Nome Completo\". As regras completas estão no aviso do Painel." },
   { data: "2026-09-21", disc: "sd", aula: 14, tipo: "aula", titulo: "Aula Quântica" },
   { data: "2026-09-23", disc: "sd", aula: 15, tipo: "aula", titulo: "Mapa de Karnaugh" },
   { data: "2026-09-28", disc: "sd", aula: 16, tipo: "aula", titulo: "Mapa de Karnaugh" },
