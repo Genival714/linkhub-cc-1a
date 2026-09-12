@@ -170,6 +170,43 @@ function regrasDe(aviso) {
   }).join("");
 }
 
+// Um botão que abre um PDF no leitor do próprio site. Serve ao
+// enunciado do aviso e ao roteiro de cada grupo — é o mesmo gatilho
+// [data-arquivo] que o leitor escuta na página inteira.
+function botaoDoDocumento(doc, classe, tituloPadrao) {
+  if (!doc?.caminho) return "";
+  return `<button class="${classe}" data-arquivo="${limpo(doc.caminho)}"
+     data-arquivo-titulo="${limpo(doc.titulo || tituloPadrao)}"
+     data-arquivo-simbolo="${limpo(doc.simbolo || "📄")}"
+     data-arquivo-resumo="${limpo(doc.resumo || "")}"
+    >${limpo(doc.rotulo || "Abrir o documento")}</button>`;
+}
+
+// Atividade em mais de um passo — leitura, entrega, aula — tem mais
+// de uma data, e a contagem do cabeçalho só fala da última. A linha
+// do tempo mostra as outras; o que já passou fica apagado.
+function etapasDe(aviso) {
+  if (!aviso.etapas?.length) return "";
+  const agora = isoDeHoje();
+
+  const itens = aviso.etapas
+    .map((e) => {
+      const data = leData(e.data);
+      const estado = e.data < agora ? "passada" : e.data === agora ? "hoje" : "futura";
+      return `
+        <li class="etapa" data-estado="${estado}">
+          <span class="etapa-data">${SEMANA_CURTA[data.getDay()]}, ${data.getDate()}/${String(data.getMonth() + 1).padStart(2, "0")}${e.hora ? ` · ${limpo(e.hora)}` : ""}</span>
+          <div class="etapa-corpo">
+            <strong class="etapa-titulo">${limpo(e.titulo)}</strong>
+            ${e.texto ? `<p class="etapa-texto">${limpo(e.texto)}</p>` : ""}
+          </div>
+        </li>`;
+    })
+    .join("");
+
+  return `<ol class="etapas">${itens}</ol>`;
+}
+
 // Trabalho em grupo: a primeira pergunta de quem abre o site é
 // "qual é o meu grupo e o meu tema?". Fica numa gaveta própria,
 // fechada, porque são dezenas de nomes — abertos por padrão eles
@@ -186,6 +223,8 @@ function gruposDe(aviso) {
           <div class="grupo-corpo">
             <strong class="grupo-tema">${limpo(g.tema)}</strong>
             <p class="grupo-gente">${(g.integrantes || []).map(limpo).join(" · ")}</p>
+            ${g.nota ? `<p class="grupo-nota">${limpo(g.nota)}</p>` : ""}
+            ${botaoDoDocumento(g.documento, "ficha-acao grupo-acao", g.tema)}
           </div>
         </li>`,
     )
@@ -213,16 +252,8 @@ function acoesDoAviso(aviso) {
   // O enunciado vem primeiro e em destaque: é o que a pessoa precisa
   // ter em mãos antes de qualquer outra coisa. Abre no leitor do
   // próprio site, que já traz baixar e abrir em nova aba lá dentro.
-  const doc = aviso.documento;
-  if (doc?.caminho) {
-    botoes.push(
-      `<button class="ficha-acao ficha-acao--forte" data-arquivo="${limpo(doc.caminho)}"
-         data-arquivo-titulo="${limpo(doc.titulo || aviso.titulo)}"
-         data-arquivo-simbolo="${limpo(doc.simbolo || "📄")}"
-         data-arquivo-resumo="${limpo(doc.resumo || "")}"
-        >${limpo(doc.rotulo || "Abrir o documento")}</button>`,
-    );
-  }
+  const enunciado = botaoDoDocumento(aviso.documento, "ficha-acao ficha-acao--forte", aviso.titulo);
+  if (enunciado) botoes.push(enunciado);
 
   if (materia?.classroom) {
     botoes.push(
@@ -269,6 +300,7 @@ function cartaoDeAviso(aviso, janela) {
       ${aviso.resumo ? `<p class="aviso-resumo">${limpo(aviso.resumo)}</p>` : ""}
       ${regua(dias, janela)}
 
+      ${etapasDe(aviso)}
       ${blocoDoArquivo(aviso)}
       ${gruposDe(aviso)}
 

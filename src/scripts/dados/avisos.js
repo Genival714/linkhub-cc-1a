@@ -45,10 +45,16 @@
 //                              (critérios de apresentação)
 //                   "zera"   → o que zera a atividade inteira
 //                   "perde"  → o que faz a questão não pontuar
-//    grupos       { titulo, nota, itens: [{ numero, tema, integrantes }] }
-//                 — trabalho em grupo: quem está com quem e qual o
-//                 tema de cada um. Vira uma gaveta própria, fechada,
-//                 antes da gaveta de regras
+//    etapas       [{ data, hora, titulo, texto }] — atividade em mais
+//                 de um passo (leitura → entrega → aula). Vira uma
+//                 linha do tempo logo abaixo do resumo; o que já passou
+//                 fica apagado. O `prazo` do aviso é o ÚLTIMO passo
+//    grupos       { titulo, nota, itens: [{ numero, tema, integrantes,
+//                 nota, documento }] } — trabalho em grupo: quem está
+//                 com quem e qual o tema de cada um. Vira uma gaveta
+//                 própria, fechada, antes da gaveta de regras. Cada
+//                 item pode ter uma `nota` (a leitura, por exemplo) e
+//                 um `documento` próprio, que vira um botão pequeno
 //    ajuda        [{ titulo, endereco }] — links de apoio
 //    dica         uma linha solta de apoio, opcional
 //    duvidas      onde tirar dúvida, opcional
@@ -152,6 +158,60 @@ export const AVISOS = [
 
     dica: "Vale 15% da AV1 — o mesmo peso da Atividade 3 sobre linguagens de programação.",
     duvidas: "Dúvidas: fale com o professor ou com os monitores de IC, no Classroom ou na monitoria.",
+  },
+
+  {
+    id: "fp1-desaprender",
+    disc: "fp1",
+    tipo: "atividade",
+    titulo: "Desaprender é competência — leitura, registro e aula-debate",
+    prazo: "2026-09-18",
+    resumo: "A aula de 18/09 depende de vocês chegarem com a leitura feita. Cada grupo de Projetos lê um trecho do texto de Silvio Meira (7 a 9 min), cada pessoa envia um registro curto até 17/09, e na aula os grupos discutem em salas separadas e apresentam no plenário.",
+
+    etapas: [
+      { data: "2026-09-17", hora: "23:59", titulo: "Registro individual de leitura", texto: "No Google Forms anexado na atividade do Classroom. De 5 a 8 linhas: uma afirmação do seu bloco que você considera bem sustentada e uma que considera frágil, com o motivo de cada. É individual, não é do grupo." },
+      { data: "2026-09-18", titulo: "Aula no Zoom", texto: "Abertura curta → 35 min de discussão na sala do seu bloco → plenário, 2 min por bloco → atividade individual no Wayground (12 questões, 3 abertas)." },
+    ],
+
+    grupos: {
+      titulo: "Qual é o bloco do seu grupo de Projetos?",
+      nota: "Os grupos são os mesmos de Projeto 1. Todo mundo lê a seção 1 (a introdução) e, depois, só a seção do seu bloco. Cada bloco tem um roteiro em PDF com a leitura, os conceitos, as perguntas da discussão e o que apresentar.",
+      itens: [
+        { numero: "Bloco A", tema: "O dínamo e o redesenho",               integrantes: ["Grupos G1 e G8"],        nota: "Seção 2 — “antes e depois não é figura de linguagem” · ~7 min", documento: { caminho: "assets/pdfs/fp1-bloco-a-dinamo.pdf",               titulo: "Bloco A · O dínamo e o redesenho",               resumo: "2 páginas · roteiro do bloco", rotulo: "Roteiro do Bloco A" } },
+        { numero: "Bloco B", tema: "A armadilha da competência",           integrantes: ["Grupos G2 e G9"],        nota: "Seção 3 — “a armadilha da competência” · ~8 min",                documento: { caminho: "assets/pdfs/fp1-bloco-b-fronteira-serrilhada.pdf", titulo: "Bloco B · A armadilha da competência",           resumo: "2 páginas · roteiro do bloco", rotulo: "Roteiro do Bloco B" } },
+        { numero: "Bloco C", tema: "Ler Bruce Lee direito",                integrantes: ["Grupos G3 e G10"],       nota: "Seção 4 — “ler bruce lee direito” · ~8 min",                      documento: { caminho: "assets/pdfs/fp1-bloco-c-bruce-lee.pdf",            titulo: "Bloco C · Ler Bruce Lee direito",                resumo: "2 páginas · roteiro do bloco", rotulo: "Roteiro do Bloco C" } },
+        { numero: "Bloco D", tema: "O terceiro nível",                     integrantes: ["Grupos G4 e G11"],       nota: "Seção 5 — “o terceiro nível” · ~6 min",                           documento: { caminho: "assets/pdfs/fp1-bloco-d-bateson.pdf",              titulo: "Bloco D · O terceiro nível",                     resumo: "2 páginas · roteiro do bloco", rotulo: "Roteiro do Bloco D" } },
+        { numero: "Bloco E", tema: "Não há caminho para o aprendizado",    integrantes: ["Grupos G5 e G12"],       nota: "Seção 6 — “não há caminho para o aprendizado” · ~7 min",          documento: { caminho: "assets/pdfs/fp1-bloco-e-atencao.pdf",              titulo: "Bloco E · Não há caminho para o aprendizado",    resumo: "2 páginas · roteiro do bloco", rotulo: "Roteiro do Bloco E" } },
+        { numero: "Bloco F", tema: "A prática, numa segunda-feira",        integrantes: ["Grupos G6 e G13"],       nota: "Seção 7 — “a prática, numa segunda-feira” · ~9 min",              documento: { caminho: "assets/pdfs/fp1-bloco-f-pratica.pdf",              titulo: "Bloco F · A prática, numa segunda-feira",        resumo: "2 páginas · roteiro do bloco", rotulo: "Roteiro do Bloco F" } },
+        { numero: "Bloco G", tema: "O que custa, e para quem não vai dar certo", integrantes: ["Grupos G7, G14 e G15"], nota: "Seção 8 — “o que custa, e para quem não vai dar certo” · ~8 min", documento: { caminho: "assets/pdfs/fp1-bloco-g-quem-paga.pdf",            titulo: "Bloco G · O que custa, e para quem não vai dar certo", resumo: "2 páginas · roteiro do bloco", rotulo: "Roteiro do Bloco G" } },
+      ],
+    },
+
+    gaveta: "Como funciona, passo a passo",
+    conferirTitulo: "Antes da aula, confira",
+    conferir: [
+      { id: "secao1",   texto: "Li a seção 1 do texto (a introdução)" },
+      { id: "bloco",    texto: "Li a seção do meu bloco — e sei explicar para quem não leu" },
+      { id: "registro", texto: "Enviei o registro individual no Forms até 17/09, 23h59" },
+      { id: "roteiro",  texto: "Abri o roteiro do meu bloco e li as perguntas da discussão" },
+      { id: "papeis",   texto: "Já pensei em quem pode ser relator, cronometrista e cético no grupo" },
+    ],
+
+    regras: [
+      { nivel: "faca", texto: "A leitura não é opcional: cada grupo lê uma parte diferente, e no plenário vocês explicam a sua parte a quem não a leu. Se um grupo chega sem ler, ninguém mais tem acesso àquele pedaço do argumento." },
+      { nivel: "faca", texto: "Leia só a seção 1 e a seção do seu bloco — de 6 a 9 minutos. O texto inteiro leva uns 43 minutos e não é para ler tudo." },
+      { nivel: "faca", texto: "Registro individual até 17/09, 23h59, no Google Forms anexado na atividade do Classroom: 5 a 8 linhas, uma afirmação bem sustentada e uma frágil, cada uma com o porquê." },
+      { nivel: "faca", texto: "Na sala do Zoom (35 min): nos 2 primeiros minutos definam os papéis; 15 min nas três perguntas comuns a todos os blocos; 15 min na pergunta do seu bloco; 5 min para o relator fechar o registro no documento colaborativo." },
+      { nivel: "faca", texto: "Papéis: relator (registra as respostas e fala no plenário), cronometrista (garante a virada aos 15 min e o fechamento aos 30) e cético (a cada conclusão do grupo pergunta “como sabemos disso?”)." },
+      { nivel: "faca", texto: "No plenário são 2 minutos por bloco, cronometrados, e só duas coisas: uma prática profissional que o texto derruba, e com o que substituir. O grupo irmão do mesmo bloco tem direito a uma frase de divergência pelo chat — divergir é esperado." },
+      { nivel: "faca", texto: "Depois da aula: atividade individual no Wayground, 12 questões. As 3 últimas são abertas; na 12, apontar que tipo de evidência faltaria ao autor vale mais do que só discordar dele." },
+    ],
+
+    ajuda: [
+      { titulo: "Ler o texto de Silvio Meira", endereco: "https://silvio.meira.com/o-que-voce-faz-de-melhor-e-o-que-tera-de-desaprender-primeiro/" },
+    ],
+    dica: "Pergunta para levar na leitura: e se a coisa que vocês estão aprendendo a fazer melhor for exatamente a primeira que terão de largar?",
+    duvidas: "Dúvidas: comentário na atividade do Classroom, para a professora Geysa.",
   },
 
   {

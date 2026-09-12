@@ -52,7 +52,14 @@ esconde a que mais dói:
 Trabalho em grupo tem o campo `grupos`: número, tema e integrantes de cada um.
 Vira uma gaveta própria, fechada, antes das regras — é a primeira pergunta de
 quem abre o site ("qual é o meu grupo?"), mas são dezenas de nomes e abertos por
-padrão empurrariam as regras para fora da tela. Os títulos da gaveta de regras e
+padrão empurrariam as regras para fora da tela. Cada grupo pode ter uma `nota`
+(a leitura que cabe a ele, por exemplo) e um `documento` próprio, que vira um
+botão pequeno e abre no mesmo leitor.
+
+Atividade em mais de um passo — leitura, entrega, aula — tem o campo `etapas`,
+uma linha do tempo logo abaixo do resumo. A contagem do cabeçalho só fala do
+`prazo`, que deve ser o último passo, para o cartão não sumir no dia da aula; as
+datas intermediárias ficam na linha do tempo, e o que já passou aparece riscado. Os títulos da gaveta de regras e
 da checklist são ajustáveis (`gaveta`, `conferirTitulo`), porque "como entregar"
 não descreve bem uma apresentação.
 

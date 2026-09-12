@@ -330,6 +330,60 @@ ul.aviso-regras {
   line-height: 1.5;
 }
 
+/* ── Etapas ──────────────────────────────────────────────── */
+/* Atividade em mais de um passo: a data de cada um, com o que já
+   passou apagado. O traço à esquerda faz a leitura de cima para
+   baixo como linha do tempo. */
+
+ol.etapas {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  margin-block-start: 0.9rem;
+  padding-inline-start: 0.75rem;
+  border-inline-start: 2px solid color-mix(in srgb, var(--c) 35%, transparent);
+  list-style: none;
+}
+
+.etapa {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.2rem 0.6rem;
+}
+
+.etapa-data {
+  flex-shrink: 0;
+  min-inline-size: 7.2rem;
+  color: var(--c-txt);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.etapa-corpo { flex: 1; min-inline-size: 12rem; }
+
+.etapa-titulo {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.etapa-texto {
+  color: var(--tinta-fraca);
+  font-size: 0.74rem;
+  line-height: 1.5;
+}
+
+.etapa[data-estado="passada"] { opacity: 0.55; }
+.etapa[data-estado="passada"] .etapa-titulo { text-decoration: line-through; }
+
+.etapa[data-estado="hoje"] .etapa-data::before {
+  content: "Hoje · ";
+}
+
 /* ── Grupos ──────────────────────────────────────────────── */
 /* Trabalho em grupo: número, tema e quem está junto. Uma linha
    por grupo, o número em destaque para o olho achar o seu. */
@@ -386,6 +440,22 @@ ol.grupos {
   color: var(--tinta-fraca);
   font-size: 0.74rem;
   line-height: 1.5;
+}
+
+.grupo-nota {
+  margin-block-start: 0.15rem;
+  color: var(--tinta-tenue);
+  font-size: 0.7rem;
+  line-height: 1.45;
+}
+
+/* O roteiro do grupo é um botão pequeno, do tamanho do texto: cada
+   bloco tem o seu e a grade não pode virar uma fileira de pílulas. */
+.grupo-acao {
+  margin-block-start: 0.4rem;
+  padding: 0.3rem 0.65rem;
+  font-size: 0.68rem;
+  cursor: pointer;
 }
 
 .aviso-duvidas {
