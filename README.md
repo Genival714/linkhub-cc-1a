@@ -39,14 +39,22 @@ tela é permanente, e o enunciado de uma lista já entregue não tem por que
 continuar ali. Ficando só no aviso, o link some junto com ele quando o prazo
 passa — o PDF continua no repositório, apenas deixa de ser oferecido.
 
-As regras vão em três níveis, porque as consequências são três e misturá-las
+As regras vão em níveis, porque as consequências são diferentes e misturá-las
 esconde a que mais dói:
 
 | nível | quer dizer |
 |---|---|
 | `faca` | como fazer certo |
+| `avalia` | o que o professor olha ao dar a nota — os critérios de uma apresentação |
 | `zera` | o que zera a atividade inteira |
 | `perde` | o que faz aquela questão não pontuar |
+
+Trabalho em grupo tem o campo `grupos`: número, tema e integrantes de cada um.
+Vira uma gaveta própria, fechada, antes das regras — é a primeira pergunta de
+quem abre o site ("qual é o meu grupo?"), mas são dezenas de nomes e abertos por
+padrão empurrariam as regras para fora da tela. Os títulos da gaveta de regras e
+da checklist são ajustáveis (`gaveta`, `conferirTitulo`), porque "como entregar"
+não descreve bem uma apresentação.
 
 Duas coisas que valem destacar:
 

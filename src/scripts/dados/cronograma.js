@@ -39,7 +39,7 @@ export const CRONOGRAMA = [
   { data: "2026-09-08", disc: "ic", aula: 10, tipo: "aula", titulo: "Conversa com Profissionais de TI" },
   { data: "2026-09-10", disc: "ic", aula: 11, tipo: "aula", titulo: "Principais áreas de atuação em TI" },
   { data: "2026-09-15", disc: "ic", aula: 12, tipo: "aula", titulo: "Noções de Front End e Back End" },
-  { data: "2026-09-17", disc: "ic", aula: 13, tipo: "atividade", titulo: "Atividade Avaliativa 4 — Profissões de TI", obs: "Em grupo, apresentação de pesquisa. Vale 15% da AV1." },
+  { data: "2026-09-17", disc: "ic", aula: 13, tipo: "atividade", titulo: "Atividade Avaliativa 4 — Profissões em TI", obs: "Em grupo, apresentação de pesquisa: 10 grupos, 6 minutos e um slide cada. Vale 15% da AV1. Os grupos, os temas e os critérios estão no aviso do Painel." },
   { data: "2026-09-22", disc: "ic", aula: 14, tipo: "aula", titulo: "Low-Code e No-Code" },
   { data: "2026-09-29", disc: "ic", aula: null, tipo: "aula", titulo: "Desenvolvimento de Projeto No-Code" },
   { data: "2026-10-01", disc: "ic", aula: null, tipo: "aula", titulo: "Desenvolvimento de Projeto No-Code" },

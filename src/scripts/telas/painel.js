@@ -86,14 +86,17 @@ function regua(dias, janela) {
 
 // Três níveis, porque as consequências são três e misturá-las
 // esconde a que mais dói: uma coisa é a questão não pontuar,
-// outra é a lista inteira ser zerada.
-const SIMBOLO_NIVEL = { faca: "✅", zera: "⛔", perde: "⚠️" };
+// outra é a lista inteira ser zerada. O quarto, "avalia", é para
+// apresentação: não é regra de formato, é o que o professor olha
+// na hora de dar a nota.
+const SIMBOLO_NIVEL = { faca: "✅", avalia: "🎯", zera: "⛔", perde: "⚠️" };
 const NOME_NIVEL = {
-  faca:  "Faça assim",
-  zera:  "Zera a atividade",
-  perde: "Não pontua",
+  faca:   "Faça assim",
+  avalia: "O que conta na nota",
+  zera:   "Zera a atividade",
+  perde:  "Não pontua",
 };
-const ORDEM_NIVEL = ["faca", "zera", "perde"];
+const ORDEM_NIVEL = ["faca", "avalia", "zera", "perde"];
 
 // Copiar o nome exigido é o atalho que mais evita zero: o formato
 // é literal e um espaço a mais já invalida a entrega.
@@ -140,7 +143,7 @@ function checklistDe(aviso) {
   return `
     <div class="confere-caixa">
       <h4 class="aviso-bloco-titulo">
-        Antes de enviar, confira
+        ${limpo(aviso.conferirTitulo || "Antes de enviar, confira")}
         <span class="aviso-placar" data-placar aria-live="polite"
           >${feitos} de ${aviso.conferir.length}</span>
       </h4>
@@ -165,6 +168,40 @@ function regrasDe(aviso) {
         </ul>
       </section>`;
   }).join("");
+}
+
+// Trabalho em grupo: a primeira pergunta de quem abre o site é
+// "qual é o meu grupo e o meu tema?". Fica numa gaveta própria,
+// fechada, porque são dezenas de nomes — abertos por padrão eles
+// empurrariam as regras para fora da tela.
+function gruposDe(aviso) {
+  const grupos = aviso.grupos;
+  if (!grupos?.itens?.length) return "";
+
+  const itens = grupos.itens
+    .map(
+      (g) => `
+        <li class="grupo">
+          <span class="grupo-numero">${limpo(g.numero)}</span>
+          <div class="grupo-corpo">
+            <strong class="grupo-tema">${limpo(g.tema)}</strong>
+            <p class="grupo-gente">${(g.integrantes || []).map(limpo).join(" · ")}</p>
+          </div>
+        </li>`,
+    )
+    .join("");
+
+  return `
+    <details class="aviso-gaveta">
+      <summary class="aviso-aba">
+        <span class="aviso-aba-texto">${limpo(grupos.titulo || "Os grupos e os temas")}</span>
+        <span class="aviso-seta">${CHEVRON}</span>
+      </summary>
+      <div class="aviso-miolo">
+        ${grupos.nota ? `<p class="grupos-nota">${limpo(grupos.nota)}</p>` : ""}
+        <ol class="grupos">${itens}</ol>
+      </div>
+    </details>`;
 }
 
 // O link do Classroom sai de materias.js — cadastrar o endereço
@@ -233,10 +270,11 @@ function cartaoDeAviso(aviso, janela) {
       ${regua(dias, janela)}
 
       ${blocoDoArquivo(aviso)}
+      ${gruposDe(aviso)}
 
       <details class="aviso-gaveta"${aberta ? " open" : ""}>
         <summary class="aviso-aba">
-          <span class="aviso-aba-texto">Como entregar sem perder ponto</span>
+          <span class="aviso-aba-texto">${limpo(aviso.gaveta || "Como entregar sem perder ponto")}</span>
           <span class="aviso-seta">${CHEVRON}</span>
         </summary>
 

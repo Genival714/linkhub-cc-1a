@@ -28,7 +28,7 @@
    painel.js novo e derrubou o site inteiro.
 ================================================================ */
 
-const VERSAO = "v8";
+const VERSAO = "v9";
 
 const CACHE_CASCA = `linkhub-casca-${VERSAO}`;
 const CACHE_LIB = "linkhub-biblioteca";   // sem versão: os arquivos já são versionados
