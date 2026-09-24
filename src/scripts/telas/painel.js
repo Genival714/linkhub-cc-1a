@@ -88,15 +88,19 @@ function regua(dias, janela) {
 // esconde a que mais dói: uma coisa é a questão não pontuar,
 // outra é a lista inteira ser zerada. O quarto, "avalia", é para
 // apresentação: não é regra de formato, é o que o professor olha
-// na hora de dar a nota.
-const SIMBOLO_NIVEL = { faca: "✅", avalia: "🎯", zera: "⛔", perde: "⚠️" };
+// na hora de dar a nota. O quinto, "proibido", é a proibição que o
+// documento faz sem dizer a consequência — chamar de "zera" seria
+// prometer um castigo que ninguém anunciou, e pôr em "faça assim"
+// esconderia a proibição no meio das dicas.
+const SIMBOLO_NIVEL = { faca: "✅", avalia: "🎯", proibido: "🚫", zera: "⛔", perde: "⚠️" };
 const NOME_NIVEL = {
-  faca:   "Faça assim",
-  avalia: "O que conta na nota",
-  zera:   "Zera a atividade",
-  perde:  "Não pontua",
+  faca:     "Faça assim",
+  avalia:   "O que conta na nota",
+  proibido: "Proibido",
+  zera:     "Zera a atividade",
+  perde:    "Não pontua",
 };
-const ORDEM_NIVEL = ["faca", "avalia", "zera", "perde"];
+const ORDEM_NIVEL = ["faca", "avalia", "proibido", "zera", "perde"];
 
 // Copiar o nome exigido é o atalho que mais evita zero: o formato
 // é literal e um espaço a mais já invalida a entrega.

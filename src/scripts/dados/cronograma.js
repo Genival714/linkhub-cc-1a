@@ -26,6 +26,9 @@
 export const CRONOGRAMA = [
 
   // ══ IC · Introdução à Computação ═══════════════════════════
+  // Segue a versão atualizada do plano (plano-introducao-computacao-v2.pdf).
+  // Mudou em três dias: 24/09 virou aula do projeto No-Code, e Markdown
+  // trocou de lugar com a parte 2 de Git (12/11 ↔ 17/11).
   { data: "2026-08-04", disc: "ic", aula: 1,  tipo: "aula", titulo: "Onboarding | Institucional" },
   { data: "2026-08-06", disc: "ic", aula: 2,  tipo: "aula", titulo: "Onboarding | Institucional" },
   { data: "2026-08-11", disc: "ic", aula: 3,  tipo: "aula", titulo: "Apresentação da Disciplina / Ecossistema do Porto Digital" },
@@ -41,11 +44,12 @@ export const CRONOGRAMA = [
   { data: "2026-09-15", disc: "ic", aula: 12, tipo: "aula", titulo: "Noções de Front End e Back End" },
   { data: "2026-09-17", disc: "ic", aula: 13, tipo: "atividade", titulo: "Atividade Avaliativa 4 — Profissões em TI", obs: "Em grupo, apresentação de pesquisa: 10 grupos, 6 minutos e um slide cada. Vale 15% da AV1. Os grupos, os temas e os critérios estão no aviso do Painel." },
   { data: "2026-09-22", disc: "ic", aula: 14, tipo: "aula", titulo: "Low-Code e No-Code" },
+  { data: "2026-09-24", disc: "ic", aula: null, tipo: "aula", titulo: "Desenvolvimento de Projeto No-Code", obs: "Aula nova na versão atualizada do plano, no lugar do Status Report 1. É também o dia de registrar o grupo do projeto no formulário — está no aviso do Painel." },
   { data: "2026-09-29", disc: "ic", aula: null, tipo: "aula", titulo: "Desenvolvimento de Projeto No-Code" },
   { data: "2026-10-01", disc: "ic", aula: null, tipo: "aula", titulo: "Desenvolvimento de Projeto No-Code" },
   { data: "2026-10-06", disc: "ic", aula: 15, tipo: "aula", titulo: "Desenvolvimento de Projeto No-Code" },
   { data: "2026-10-08", disc: "ic", aula: 16, tipo: "aula", titulo: "Desenvolvimento de Projeto No-Code" },
-  { data: "2026-10-13", disc: "ic", aula: 17, tipo: "projeto", titulo: "Projeto Avaliativo 1 — Entrega e apresentação do jogo No-Code", obs: "Vale 60% da AV1 — é o maior peso da primeira unidade." },
+  { data: "2026-10-13", disc: "ic", aula: 17, tipo: "projeto", titulo: "Projeto Avaliativo 1 — Entrega e apresentação do jogo No-Code", obs: "Vale 60% da AV1 — é o maior peso da primeira unidade. Jogo feito no Bitsy Tuxedo, em grupos de até 3, apresentado com gameplay e entregue com o relatório impresso e assinado. Entregáveis, template do relatório e critérios estão no aviso do Painel." },
   { data: "2026-10-15", disc: "ic", aula: 18, tipo: "aula", titulo: "WWW e Redes de Computadores" },
   { data: "2026-10-20", disc: "ic", aula: 19, tipo: "aula", titulo: "Introdução ao HTML" },
   { data: "2026-10-22", disc: "ic", aula: 20, tipo: "aula", titulo: "Introdução ao HTML" },
@@ -53,9 +57,9 @@ export const CRONOGRAMA = [
   { data: "2026-10-29", disc: "ic", aula: 22, tipo: "aula", titulo: "Introdução ao CSS" },
   { data: "2026-11-03", disc: "ic", aula: 23, tipo: "aula", titulo: "Introdução ao JavaScript" },
   { data: "2026-11-05", disc: "ic", aula: 24, tipo: "aula", titulo: "Introdução ao JavaScript" },
-  { data: "2026-11-10", disc: "ic", aula: 25, tipo: "aula", titulo: "Introdução ao Controle de Versão com Git" },
-  { data: "2026-11-12", disc: "ic", aula: 26, tipo: "aula", titulo: "Introdução ao Controle de Versão com Git" },
-  { data: "2026-11-17", disc: "ic", aula: null, tipo: "aula", titulo: "Markdown | Rec'n Play" },
+  { data: "2026-11-10", disc: "ic", aula: 25, tipo: "aula", titulo: "Introdução ao Controle de Versão com Git (parte 1)" },
+  { data: "2026-11-12", disc: "ic", aula: null, tipo: "aula", titulo: "Markdown | Rec'n Play", obs: "Na versão atualizada do plano, Markdown veio de 17/11 para cá e a parte 2 de Git foi para 17/11." },
+  { data: "2026-11-17", disc: "ic", aula: 26, tipo: "aula", titulo: "Introdução ao Controle de Versão com Git (parte 2)", obs: "Na versão atualizada do plano, a parte 2 de Git veio de 12/11 para cá, trocando de lugar com Markdown." },
   { data: "2026-11-19", disc: "ic", aula: 27, tipo: "aula", titulo: "Bate-papo sobre carreira" },
   { data: "2026-11-24", disc: "ic", aula: 28, tipo: "aula", titulo: "Perfil profissional no LinkedIn" },
   { data: "2026-11-26", disc: "ic", aula: 29, tipo: "aula", titulo: "Desenvolvimento do Portfólio com HTML, CSS e JavaScript" },
@@ -140,6 +144,9 @@ export const CRONOGRAMA = [
   { data: "2026-12-21", disc: "sd", aula: null, tipo: "prova", titulo: "Prova Final" },
 
   // ══ FP · Fundamentos de Programação ════════════════════════
+  // Segue a versão atualizada do plano (plano-fundamentos-programacao-v2.pdf).
+  // Mudou em três dias: 24/09 ficou sem aula (Status Report 1), Matrizes
+  // passou para 29/09 e a lista extra para 01/10.
   { data: "2026-08-04", disc: "fp", aula: null, tipo: "aula", titulo: "Semana de Imersão" },
   { data: "2026-08-06", disc: "fp", aula: null, tipo: "aula", titulo: "Semana de Imersão" },
   { data: "2026-08-11", disc: "fp", aula: 1,  tipo: "aula", titulo: "Apresentação da disciplina e conceitos iniciais de programação" },
@@ -155,9 +162,9 @@ export const CRONOGRAMA = [
   { data: "2026-09-15", disc: "fp", aula: 11, tipo: "atividade", titulo: "Atividade prática valendo parte da nota (no papel)", obs: "Uma das duas atividades práticas que somam 40% da AV1." },
   { data: "2026-09-17", disc: "fp", aula: 12, tipo: "aula", titulo: "Vetores" },
   { data: "2026-09-22", disc: "fp", aula: 13, tipo: "aula", titulo: "Vetores e matrizes" },
-  { data: "2026-09-24", disc: "fp", aula: 14, tipo: "aula", titulo: "Matrizes" },
-  { data: "2026-09-29", disc: "fp", aula: 15, tipo: "aula", titulo: "Lista de exercícios extra (iniciada em sala)", obs: "Vale pontuação extra." },
-  { data: "2026-10-01", disc: "fp", aula: 16, tipo: "aula", titulo: "Dúvidas para a prova · Planejamento do projeto da Unidade 2 · Tópicos sobre IA" },
+  { data: "2026-09-24", disc: "fp", aula: 14, tipo: "aula", titulo: "Status Report 1 (sem aula)", obs: "Na versão atualizada do plano, este dia ficou sem aula por causa do Status Report 1. Matrizes passou para 29/09." },
+  { data: "2026-09-29", disc: "fp", aula: 15, tipo: "aula", titulo: "Matrizes", obs: "Na versão atualizada do plano, Matrizes veio de 24/09 para cá, e a lista extra foi para 01/10." },
+  { data: "2026-10-01", disc: "fp", aula: 16, tipo: "aula", titulo: "Lista de exercícios extra (iniciada em sala) · Dúvidas para a prova · Planejamento do projeto da Unidade 2 · Tópicos sobre IA", obs: "A lista vale pontuação extra. Na versão atualizada do plano, ela veio de 29/09 para esta aula, a última antes da prova de 06/10." },
   { data: "2026-10-06", disc: "fp", aula: 17, tipo: "prova", titulo: "Prova do Módulo 01 (no computador)", obs: "Vale 60% da AV1. Prova no laboratório." },
   { data: "2026-10-08", disc: "fp", aula: 18, tipo: "aula", titulo: "Strings" },
   { data: "2026-10-13", disc: "fp", aula: 19, tipo: "aula", titulo: "Tuplas e dicionários" },

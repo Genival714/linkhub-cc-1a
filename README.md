@@ -45,9 +45,16 @@ esconde a que mais dói:
 | nível | quer dizer |
 |---|---|
 | `faca` | como fazer certo |
-| `avalia` | o que o professor olha ao dar a nota — os critérios de uma apresentação |
+| `avalia` | o que o professor olha ao dar a nota — os critérios de uma apresentação ou de um projeto |
+| `proibido` | o que o documento proíbe sem dizer a consequência — se ele disser que zera, é `zera` |
 | `zera` | o que zera a atividade inteira |
 | `perde` | o que faz aquela questão não pontuar |
+
+O `proibido` entrou com o projeto No-Code de IC: o slide diz que usar asset com
+direitos autorais é "absolutamente proibido", mas não diz o que acontece com quem
+usa. Em `zera`, o site prometeria um castigo que ninguém anunciou; em `faca`, a
+proibição sumiria no meio das dicas. Ele divide o vermelho com o `zera`, e o
+rótulo e o símbolo separam um do outro.
 
 Trabalho em grupo tem o campo `grupos`: número, tema e integrantes de cada um.
 Vira uma gaveta própria, fechada, antes das regras — é a primeira pergunta de
@@ -326,12 +333,26 @@ Todos estão marcados com uma observação no próprio evento, visível no site:
 | Item | O que foi encontrado | O que usei |
 |---|---|---|
 | Matemática, aulas 14 e 15 | O plano traz 28/10 e 30/10, entre aulas de 23/09 e 05/10 | 28/09 e 30/09 — bate com os dias da semana e com a janela oficial de AV1 (30/9 a 6/10) |
-| Status Report 1 | Calendário Acadêmico diz 25/09; planos de SD, IC e FP1 dizem 24/09 | 24/09, que é o que três planos concordam |
+| Status Report 1 | Calendário Acadêmico diz 25/09; planos de SD, FP e FP1 dizem 24/09 — o de FP, atualizado, suspende a aula desse dia por causa dele. O de IC também dizia 24/09, até a versão atualizada pôr aula do projeto No-Code nesse dia | 24/09, que é o que três planos trazem |
 | Sistemas Digitais, 24/11 | Cai numa terça, fora dos dias da matéria (seg/qua) | Mantive como está no plano |
 | Grade de horários, quinta 10:30 | O código `00003` (Sistemas Digitais) aparece com o nome "Introdução à Computação" | Corrigi pra Introdução à Computação — o código certo dela é `00001`, e os planos confirmam IC às ter/qui e SD às seg/qua |
 
 O plano de FP1 também traz `COMP20252_1A` e `Semestre 2026.1` no cabeçalho, o que
 é erro do próprio documento, já que todas as datas são de 2026.2.
+
+O plano de IC foi trocado pela versão atualizada em 24/09/2026
+(`plano-introducao-computacao-v2.pdf`). Comparando o texto das duas versões,
+mudaram três dias: 24/09 deixou de ser o Status Report 1 e virou aula do projeto
+No-Code, e Markdown trocou de lugar com a parte 2 de Git — Markdown foi para
+12/11, junto do Rec'n Play, e Git parte 2 para 17/11. Ementa, avaliação e o resto
+do cronograma ficaram iguais. Os três dias levam uma observação na agenda, para
+quem tinha anotado as datas antigas.
+
+No mesmo dia chegou a versão atualizada do plano de FP
+(`plano-fundamentos-programacao-v2.pdf`), também com três dias mexidos: 24/09
+ficou sem aula por causa do Status Report 1, Matrizes passou para 29/09 e a lista
+de exercícios extra para 01/10, junto das dúvidas para a prova. O resto é igual,
+e esses três dias também levam observação na agenda.
 
 Vale lembrar que os professores podem alterar o cronograma durante o semestre —
 na dúvida, confirma em sala.
@@ -358,6 +379,13 @@ const VERSAO = "v1";   // → "v2"
 versão, quem já abriu o site continua vendo a versão anterior. As bibliotecas e
 os PDFs ficam num cache separado, sem versão: eles não mudam, e baixá-los de novo
 a cada correção de data gastaria os dados de quem está no 4G.
+
+Por isso **PDF que muda de conteúdo precisa mudar de nome.** Trocar o arquivo e
+manter o endereço não chega a quem já tinha aberto o antigo: o celular responde
+do cache e nunca mais pede aquele endereço à rede, nem com a `VERSAO` nova. Foi o
+que aconteceu com os planos de IC e de FP atualizados, publicados como
+`plano-introducao-computacao-v2.pdf` e `plano-fundamentos-programacao-v2.pdf` — e
+o caminho novo foi trocado em `materias.js` e no `turma.js`.
 
 ### Por que o index.html vem da rede
 

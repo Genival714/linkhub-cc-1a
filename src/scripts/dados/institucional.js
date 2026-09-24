@@ -21,7 +21,7 @@ export const INSTITUCIONAL = [
   // ── Setembro ──────────────────────────────────────────────
   { data: "2026-09-03", disc: "inst", tipo: "prazo",   titulo: "Fim do prazo para trancamento de curso e alteração de matrícula" },
   { data: "2026-09-07", disc: "inst", tipo: "feriado", titulo: "Feriado — Independência" },
-  { data: "2026-09-24", disc: "inst", tipo: "evento",  titulo: "Status Report 1", obs: "Os planos de SD, IC e FP1 marcam 24/09 (quinta). O Calendário Acadêmico traz 25/09 — confirme com a coordenação." },
+  { data: "2026-09-24", disc: "inst", tipo: "evento",  titulo: "Status Report 1", obs: "Os planos de SD, FP e FP1 marcam 24/09 (quinta) — o de FP, atualizado, deixa esse dia sem aula por causa dele. O Calendário Acadêmico traz 25/09, e o plano de IC atualizado marca aula do projeto No-Code em 24/09. Confirme com a coordenação." },
   { data: "2026-09-30", disc: "inst", tipo: "janela",  titulo: "Início do período de avaliações (AV1)", obs: "A janela de AV1 vai de 30/09 a 06/10." },
 
   // ── Outubro ───────────────────────────────────────────────

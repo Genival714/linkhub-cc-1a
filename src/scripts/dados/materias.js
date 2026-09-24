@@ -12,6 +12,10 @@
 //  A cor NUNCA é o único sinal: todo evento também carrega a
 //  sigla da matéria e um ícone do tipo, para quem não
 //  distingue as matizes.
+//
+//  ►► Plano de ensino atualizado entra com NOME NOVO (…-v2.pdf).
+//     O sw.js serve PDF direto do cache: com o mesmo nome, quem já
+//     tinha aberto a versão antiga nunca mais veria a nova.
 // ============================================================
 
 export const MATERIAS = [
@@ -27,7 +31,7 @@ export const MATERIAS = [
       { nome: "Erick Simões de Matos", email: "esm@cesar.school" },
     ],
     classroom: "https://classroom.google.com/c/ODcxNjkzMjYyNDcz",
-    plano: "assets/pdfs/plano-introducao-computacao.pdf",
+    plano: "assets/pdfs/plano-introducao-computacao-v2.pdf",
     ementa: "Contexto histórico e local da computação; Boas práticas do uso de IA; Princípios da Computação; Linguagens de Programação; Introdução a Sistemas Operacionais; Noções de Front End e Back End; Low-Code e No-Code; HTML, CSS e JavaScript; Markdown; Git e GitHub; Perfil profissional no LinkedIn.",
     avaliacao: {
       av1: [
@@ -35,7 +39,7 @@ export const MATERIAS = [
         "5% · Atividade Avaliativa 2 — individual e assíncrona, Gargalo de von Neumann",
         "15% · Atividade Avaliativa 3 — em grupo, pesquisa sobre linguagens de programação",
         "15% · Atividade Avaliativa 4 — em grupo, pesquisa sobre profissões em TI",
-        "60% · Projeto Avaliativo 1 — jogo digital No-Code",
+        "60% · Projeto Avaliativo 1 — jogo digital No-Code, no Bitsy Tuxedo, em grupos de até 3",
       ],
       av2: [
         "20% · Conclusão do curso JavaScript Essentials 1 (CISCO)",
@@ -135,7 +139,7 @@ export const MATERIAS = [
       { nome: "Victor Costa", email: "vflc@cesar.school" },
     ],
     classroom: "https://classroom.google.com/c/ODcxNDQzMDEyMTM0",
-    plano: "assets/pdfs/plano-fundamentos-programacao.pdf",
+    plano: "assets/pdfs/plano-fundamentos-programacao-v2.pdf",
     ementa: "Conceituação e aplicação de algoritmos. Desenvolvimento da lógica de programação. Expressão de soluções em termos de algoritmos estruturados. Estruturas básicas para estruturação da informação. Aplicação dos algoritmos usando Python.",
     avaliacao: {
       av1: [

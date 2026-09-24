@@ -304,6 +304,9 @@ ul.confere {
   --sinal-txt: var(--c-txt);
 }
 
+/* Proibido e zera dividem o vermelho — é o que o token diz em
+   base.css. O rótulo e o símbolo separam um do outro. */
+.aviso-nivel[data-nivel="proibido"],
 .aviso-nivel[data-nivel="zera"] {
   --sinal: var(--c-feriado);
   --sinal-txt: var(--c-feriado);

@@ -43,6 +43,9 @@
 //                   "faca"   → como fazer certo
 //                   "avalia" → o que o professor olha ao dar a nota
 //                              (critérios de apresentação)
+//                   "proibido" → o que o documento proíbe sem dizer
+//                              a consequência. Se ele disser que
+//                              zera, é "zera"
 //                   "zera"   → o que zera a atividade inteira
 //                   "perde"  → o que faz a questão não pontuar
 //    etapas       [{ data, hora, titulo, texto }] — atividade em mais
@@ -66,6 +69,74 @@
 // ============================================================
 
 export const AVISOS = [
+
+  {
+    id: "ic-projeto-no-code",
+    disc: "ic",
+    tipo: "projeto",
+    titulo: "Projeto Avaliativo 1 — Jogo digital No-Code",
+    prazo: "2026-10-13",
+    resumo: "Em grupos de até 3 pessoas, criem um jogo digital no Bitsy Tuxedo, da ideia à entrega, e apresentem o gameplay na aula de 13/10, com o relatório impresso e assinado. Vale 60% da AV1 — o maior peso da primeira unidade de IC.",
+
+    documento: {
+      caminho: "assets/pdfs/ic-template-relatorio-no-code.pdf",
+      titulo: "Template do relatório · Projeto No-Code",
+      simbolo: "📝",
+      resumo: "4 páginas · 135 KB · a estrutura que o relatório do grupo segue, seção por seção.",
+      rotulo: "Ver o template do relatório",
+    },
+
+    etapas: [
+      { data: "2026-09-24", titulo: "Registro do grupo e 1ª aula de desenvolvimento", texto: "O registro é para esta aula: uma pessoa por grupo preenche o formulário (botão “Registrar o grupo”, abaixo), com a conta @cesar.school. Depois: experimentar a ferramenta, definir enredo, público-alvo e objetivo do jogo, e esboçar os visuais, as fases e as mecânicas principais." },
+      { data: "2026-10-08", titulo: "Última aula de desenvolvimento", texto: "Depois dela, 09/10 e 12/10 são feriados, e a entrega é na terça, 13/10. Deixem combinado antes quem imprime o relatório e quando todo mundo assina." },
+      { data: "2026-10-13", titulo: "Entrega e apresentação, na aula de IC", texto: "O grupo apresenta o jogo mostrando o gameplay e entrega o relatório impresso e assinado. Uma pessoa envia todos os entregáveis pelo formulário de entrega — que é outro, diferente do de registro." },
+    ],
+
+    gaveta: "Regras, entregáveis e critérios da nota",
+    conferirTitulo: "Antes de entregar, confira",
+    conferir: [
+      { id: "registro", texto: "Uma pessoa registrou o grupo — até 3 pessoas — no formulário de registro" },
+      { id: "jogo",     texto: "O jogo funciona do começo ao fim no Bitsy Tuxedo" },
+      { id: "assets",   texto: "Nenhum asset com direitos autorais — e o 3.3 credita o que não é do grupo, ou declara que tudo é original" },
+      { id: "template", texto: "O relatório segue o template, sem sobrar campo em destaque — e o 4.3 diz quem fez o quê" },
+      { id: "ia",       texto: "O 3.4 declara o uso de IA — ou que não houve" },
+      { id: "prints",   texto: "O 5.1 tem pelo menos 3 capturas de tela, cada uma com legenda" },
+      { id: "itch",     texto: "O 5.2 tem o link do jogo no itch.io da disciplina" },
+      { id: "assinado", texto: "O relatório está impresso e assinado por todos os integrantes" },
+      { id: "gameplay", texto: "A apresentação com gameplay está pronta para a aula de 13/10" },
+      { id: "entrega",  texto: "Uma pessoa enviou todos os entregáveis pelo formulário de entrega" },
+    ],
+
+    regras: [
+      { nivel: "faca",     texto: "Grupos de até 3 pessoas. O tema, os requisitos e as mecânicas do jogo são decididos pelo próprio grupo, com a supervisão do professor." },
+      { nivel: "faca",     texto: "As 5 aulas de IC entre 24/09 e 08/10 (24/09, 29/09, 01/10, 06/10 e 08/10) são para desenvolver o projeto — e “Acompanhamento” é um dos critérios da nota." },
+      { nivel: "faca",     texto: "A ferramenta é o Bitsy Tuxedo, da FORJA, o estúdio de jogos da CESAR School. Roda no navegador (botão “Abrir o Bitsy Tuxedo”, abaixo). Não haverá aula sobre como usá-la: aprender pesquisando em documentação e tutoriais faz parte do projeto." },
+      { nivel: "faca",     texto: "Anotem desde o começo os problemas que aparecerem, como resolveram e as limitações que acharem na ferramenta: o relatório pede isso nos itens 4.5 e 6.1." },
+      { nivel: "faca",     texto: "O jogo precisa funcionar e ter uma narrativa interativa e/ou uma mecânica de jogo coerente." },
+      { nivel: "faca",     texto: "Os entregáveis são três: o jogo feito no Bitsy Tuxedo, a apresentação com gameplay e o relatório de desenvolvimento, impresso e assinado. No dia da entrega, uma pessoa do grupo envia tudo pelo formulário de entrega, e o grupo leva a cópia impressa do relatório." },
+      { nivel: "faca",     texto: "O relatório segue o template, seção por seção. Troquem tudo o que está marcado em destaque (semestre, turma, nome do grupo, nomes e e-mails); na capa, cada integrante assina na linha acima do próprio nome." },
+      { nivel: "faca",     texto: "Atenção ao 4.3: no template ele repete por engano o título do 4.2 (“Mapa de salas e fluxo de telas”), mas pede outra coisa — quem ficou responsável por quê, uma linha por integrante." },
+      { nivel: "faca",     texto: "A tabela do 4.4 é só exemplo — ela mesma avisa: “Tudo isso aqui é exemplo pelamordedeus!”. Preencham com as atividades do grupo: P para planejado, R para realizado, PR quando os dois coincidem." },
+      { nivel: "faca",     texto: "Guardem capturas de tela durante o desenvolvimento: o 5.1 pede pelo menos 3, de momentos diferentes (tela inicial, gameplay, transição, vitória/derrota), cada uma com legenda de até 2 linhas." },
+      { nivel: "faca",     texto: "O 5.2 pede o link do jogo publicado no itch.io da disciplina. O endereço vem do professor — se ainda não chegou até vocês, perguntem na aula." },
+      { nivel: "faca",     texto: "Opcional: se o grupo quiser o jogo exposto no espaço da FORJA no Rec'n Play, o pedido vai no item 6.4 do relatório, com a justificativa." },
+      { nivel: "avalia",   texto: "Acompanhamento." },
+      { nivel: "avalia",   texto: "Domínio conceitual." },
+      { nivel: "avalia",   texto: "Planejamento e estrutura do jogo." },
+      { nivel: "avalia",   texto: "Complexidade e criatividade." },
+      { nivel: "avalia",   texto: "Implementação técnica e uso da plataforma." },
+      { nivel: "avalia",   texto: "Documentação e apresentação." },
+      { nivel: "avalia",   texto: "Cumprimento do prazo. Atraso só com autorização prévia do professor, e com redução de 15% do valor (regra do plano de ensino)." },
+      { nivel: "proibido", texto: "Usar assets com direitos autorais — sprites, tiles, sons, músicas ou fontes de outras pessoas. O caminho seguro é o grupo criar os próprios. Se forem usar algo de terceiros, confirmem com o professor antes, e creditem no item 3.3 do relatório: origem, autoria e licença." },
+    ],
+
+    ajuda: [
+      { titulo: "Registrar o grupo", endereco: "https://docs.google.com/forms/d/e/1FAIpQLSdIXOtDTKBoDJiH6Jvn01A05BCIeTzs_99PMx3l00TDH9Q6yg/viewform", forte: true },
+      { titulo: "Abrir o Bitsy Tuxedo", endereco: "https://tuxedo.forjagame.com/" },
+    ],
+    dica: "O projeto corre junto com as provas da AV1 — MC em 30/09, FP1 em 02/10, SD em 05/10 e FP em 06/10. Não deixem o jogo para a última semana.",
+    duvidas: "Dúvidas: com o professor Erick, nas aulas de desenvolvimento, ou com os monitores de IC (em Monitorias, aqui no Painel).",
+  },
 
   {
     id: "sd-lista-02",
