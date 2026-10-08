@@ -468,3 +468,5 @@ O tema tem três posições em vez de duas: claro, escuro e sistema. A terceira 
 que costuma faltar — quem deixa o computador trocar de tema sozinho ao anoitecer
 quer que o site acompanhe, e num interruptor de duas posições não existe como
 pedir isso.
+
+**Inspirado no Linkhub CC-B de Thony Barreto**
